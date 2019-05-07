@@ -1,0 +1,9 @@
+C:\Users\waler\Documents\GitHub\DarkDivinity\obj\Debug\DarkDivinity.csprojAssemblyReference.cache
+C:\Users\waler\Documents\GitHub\DarkDivinity\obj\Debug\DarkDivinity.Properties.Resources.resources
+C:\Users\waler\Documents\GitHub\DarkDivinity\obj\Debug\DarkDivinity.csproj.GenerateResource.cache
+C:\Users\waler\Documents\GitHub\DarkDivinity\obj\Debug\DarkDivinity.csproj.CoreCompileInputs.cache
+C:\Users\waler\Documents\GitHub\DarkDivinity\bin\Debug\DarkDivinity.exe.config
+C:\Users\waler\Documents\GitHub\DarkDivinity\bin\Debug\DarkDivinity.exe
+C:\Users\waler\Documents\GitHub\DarkDivinity\bin\Debug\DarkDivinity.pdb
+C:\Users\waler\Documents\GitHub\DarkDivinity\obj\Debug\DarkDivinity.exe
+C:\Users\waler\Documents\GitHub\DarkDivinity\obj\Debug\DarkDivinity.pdb
