@@ -16,7 +16,7 @@ namespace DarkDivinity
         {
             InitializeComponent();
             Cursor.Hide();
-            this.KeyDown += new KeyEventHandler(OKP);
+            this.KeyDown += new KeyEventHandler(InputKeyReader);
         }
     }
 }

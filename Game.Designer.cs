@@ -23,7 +23,7 @@ namespace DarkDivinity
         /// </summary>
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         /// 
-        private void OKP(object sender, KeyEventArgs e)
+        private void InputKeyReader(object sender, KeyEventArgs e)
         {
             if (e.KeyData == Keys.Escape)
             {
@@ -33,7 +33,6 @@ namespace DarkDivinity
                     startLogo.Show();
                     Cursor.Show();
                     this.Hide();
-                    //Application.Exit();
                 }
                 else
                 {

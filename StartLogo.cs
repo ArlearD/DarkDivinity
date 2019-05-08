@@ -1,13 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 using System.Threading;
+using System.Windows.Forms;
 
 namespace DarkDivinity
 {
@@ -30,6 +25,7 @@ namespace DarkDivinity
                 Location = new Point(0, button.Bottom),
                 Size = label.Size
             };
+            FormClosed += MainForm_FormClosing;
             button.Click += MakeWork;
             button.Click += OpenGameWindow;
             Controls.Add(label);
@@ -42,6 +38,11 @@ namespace DarkDivinity
             Form gameForm = new Game();
             gameForm.Show();
             this.Hide();
+        }
+
+        void MainForm_FormClosing(object sender, EventArgs e)
+        {
+            Application.Exit();
         }
 
         void MakeWork(object sender, EventArgs args)
@@ -68,6 +69,7 @@ namespace DarkDivinity
 
             worker.RunWorkerAsync();
         }
+
 
         static void worker_DoWork(object sender, DoWorkEventArgs e)
         {
