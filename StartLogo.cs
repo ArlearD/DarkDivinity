@@ -11,12 +11,12 @@ using System.Threading;
 
 namespace DarkDivinity
 {
-    public partial class Form1 : Form
+    public partial class StartLogo : Form
     {
         private readonly Label label;
         private readonly Button button;
         private readonly ProgressBar progressBar;
-        public Form1()
+        public StartLogo()
         {
             label = new Label { Size = new Size(ClientSize.Width, 30) };
             button = new Button
@@ -31,9 +31,17 @@ namespace DarkDivinity
                 Size = label.Size
             };
             button.Click += MakeWork;
+            button.Click += OpenGameWindow;
             Controls.Add(label);
             Controls.Add(button);
             Controls.Add(progressBar);
+        }
+
+        void OpenGameWindow(object sender, EventArgs args)
+        {
+            Form gameForm = new Game();
+            gameForm.Show();
+            this.Hide();
         }
 
         void MakeWork(object sender, EventArgs args)
@@ -63,7 +71,7 @@ namespace DarkDivinity
 
         static void worker_DoWork(object sender, DoWorkEventArgs e)
         {
-            for (int i = 0; i < 100; i++)
+            for (int i = 0; i <= 100; i++)
             {
                 if (((BackgroundWorker)sender).CancellationPending) break;
                 Thread.Sleep(50);
