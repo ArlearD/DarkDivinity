@@ -31,8 +31,11 @@
     public class Player : ICreature
     {
         public bool RunState = false;
+        public int StayFrame = 0;
         public int RunFrame = 1;
         public bool RightState = false;
+        public bool Falling = false;
+        public bool Flyer = false;
         public CreatureCommand Act(int x, int y)
         {
             int xvalue = 0;
@@ -52,22 +55,76 @@
                 case System.Windows.Forms.Keys.Up:
                     for (int i = 0; i <= 2; i++)
                     {
-                        if (y - i >= 0 
-                            && Game.Map[x, y + 1] != null 
-                            && Game.Map[x, y + 1].ToString() == "Digger.Terrain")
+                        if (y - i >= 0 &&
+                            Game.Map[x, y + 1] != null 
+                            && Game.Map[x, y + 1].ToString() == "Digger.Terrain"
+                            && Game.Map[x, y - i] == null)
+                        {
                             yvalue = -i;
+                        }
                     }
-                        break;
+                    Flyer = true;
+                    RunState = false;
+                    Falling = false;
+                    break;
                 case System.Windows.Forms.Keys.Down:
                     if (y + 1 < Game.MapHeight)
                         yvalue = 1;
                     break;
+                case System.Windows.Forms.Keys.None:
+                    RunState = false;
+                    Falling = false;
+                    break;
             }
             if (y + 1 < Game.MapHeight && Game.Map[x, y + 1] == null)
             {
-                yvalue++;
+                if (Flyer)
+                {
+                    Flyer = !Flyer;
+                }
+                else
+                {
+                    yvalue++;
+                }
             }
 
+            if (xvalue != 0)
+            {
+                RunState = true;
+            }
+            if (yvalue > 0)
+            {
+                Falling = true;
+            }
+            else Falling = false;
+
+            if (Game.Map[x, y + yvalue] != null)
+            {
+                if (Game.Map[x, y + yvalue].ToString() == "Digger.Sack"
+                    || Game.Map[x, y + yvalue].ToString() == "Digger.Terrain")
+                {
+                    RunState = false;
+                    return new CreatureCommand
+                    {
+                        DeltaX = xvalue,
+                        DeltaY = 0
+                    };
+                }
+            }
+
+            if (Game.Map[x + xvalue, y] != null)
+            {
+                if (Game.Map[x + xvalue, y].ToString() == "Digger.Sack"
+                    || Game.Map[x + xvalue, y].ToString() == "Digger.Terrain")
+                {
+                    RunState = false;
+                    return new CreatureCommand
+                    {
+                        DeltaX = 0,
+                        DeltaY = yvalue
+                    };
+                }
+            }
             if (Game.Map[x + xvalue, y + yvalue] != null)
             {
                 if (Game.Map[x + xvalue, y + yvalue].ToString() == "Digger.Sack"
@@ -76,16 +133,9 @@
                     RunState = false;
                     return new CreatureCommand
                     {
-                        DeltaX = 0,
+                        DeltaX = xvalue,
                         DeltaY = 0
                     };
-                }
-            }
-            else
-            {
-                if (xvalue != 0)
-                {
-                    RunState = true;
                 }
             }
             return new CreatureCommand
@@ -112,30 +162,46 @@
 
         public string GetImageFileName()
         {
-            if (RightState)
+            string Fix = "";
+            if (!RightState)
             {
-                if (RunState)
+                Fix = "L";
+            }
+
+            if (RunState && !Falling)
+            {
+                var currentFrame = RunFrame;
+                if (RunFrame >= 8) RunFrame = 1;
+                RunFrame++;
+                return "PlayerRun" + Fix + currentFrame + ".png";
+            }
+            if (Falling)
+            {
+                return "PlayerJump" + Fix + 3 + ".png";
+            }
+
+            if (!Falling)
+            {
+                if (StayFrame >= 30)
                 {
-                    if (RunFrame >= 8) RunFrame = 1;
-                    var currentFrame = RunFrame;
-                    RunFrame++;
-                    return "PlayerRun" + currentFrame + ".png";
+                    StayFrame = 0;
+                }
+                StayFrame++;
+
+                if (StayFrame < 10)
+                {
+                    return "Player" + Fix + "1.png";
+                }
+                else if (StayFrame < 20)
+                {
+                    return "Player" + Fix + "2.png";
                 }
                 else
-                    return "Player.png";
-            }
-            else
-            {
-                if (RunState)
                 {
-                    if (RunFrame >= 8) RunFrame = 1;
-                    var currentFrame = RunFrame;
-                    RunFrame++;
-                    return "PlayerRunL" + currentFrame + ".png";
+                    return "Player" + Fix + "3.png";
                 }
-                else
-                    return "PlayerL.png";
             }
+            return "";
         }
     }
 
@@ -289,5 +355,4 @@
             return "Monster.png";
         }
     }
-
 }

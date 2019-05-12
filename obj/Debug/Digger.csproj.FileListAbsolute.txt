@@ -37,8 +37,6 @@ C:\Users\Granter\Documents\GitHub\CooperativeTaxiTravels\bin\Debug\Images\Gold.p
 C:\Users\Granter\Documents\GitHub\CooperativeTaxiTravels\bin\Debug\Images\Monster.png
 C:\Users\Granter\Documents\GitHub\CooperativeTaxiTravels\bin\Debug\Images\Sack.png
 C:\Users\Granter\Documents\GitHub\CooperativeTaxiTravels\bin\Debug\Images\Terrain.png
-C:\Users\Granter\Documents\GitHub\CooperativeTaxiTravels\bin\Debug\Images\Player.png
-C:\Users\Granter\Documents\GitHub\CooperativeTaxiTravels\bin\Debug\Images\PlayerL.png
 C:\Users\Granter\Documents\GitHub\CooperativeTaxiTravels\bin\Debug\Images\PlayerRun1.png
 C:\Users\Granter\Documents\GitHub\CooperativeTaxiTravels\bin\Debug\Images\PlayerRun2.png
 C:\Users\Granter\Documents\GitHub\CooperativeTaxiTravels\bin\Debug\Images\PlayerRun3.png
@@ -55,3 +53,17 @@ C:\Users\Granter\Documents\GitHub\CooperativeTaxiTravels\bin\Debug\Images\Player
 C:\Users\Granter\Documents\GitHub\CooperativeTaxiTravels\bin\Debug\Images\PlayerRunL6.png
 C:\Users\Granter\Documents\GitHub\CooperativeTaxiTravels\bin\Debug\Images\PlayerRunL7.png
 C:\Users\Granter\Documents\GitHub\CooperativeTaxiTravels\bin\Debug\Images\PlayerRunL8.png
+C:\Users\Granter\Documents\GitHub\CooperativeTaxiTravels\bin\Debug\Images\PlayerJump1.png
+C:\Users\Granter\Documents\GitHub\CooperativeTaxiTravels\bin\Debug\Images\PlayerJump2.png
+C:\Users\Granter\Documents\GitHub\CooperativeTaxiTravels\bin\Debug\Images\PlayerJump3.png
+C:\Users\Granter\Documents\GitHub\CooperativeTaxiTravels\bin\Debug\Images\PlayerJump4.png
+C:\Users\Granter\Documents\GitHub\CooperativeTaxiTravels\bin\Debug\Images\PlayerJumpL1.png
+C:\Users\Granter\Documents\GitHub\CooperativeTaxiTravels\bin\Debug\Images\PlayerJumpL2.png
+C:\Users\Granter\Documents\GitHub\CooperativeTaxiTravels\bin\Debug\Images\PlayerJumpL3.png
+C:\Users\Granter\Documents\GitHub\CooperativeTaxiTravels\bin\Debug\Images\PlayerJumpL4.png
+C:\Users\Granter\Documents\GitHub\CooperativeTaxiTravels\bin\Debug\Images\Player1.png
+C:\Users\Granter\Documents\GitHub\CooperativeTaxiTravels\bin\Debug\Images\Player2.png
+C:\Users\Granter\Documents\GitHub\CooperativeTaxiTravels\bin\Debug\Images\Player3.png
+C:\Users\Granter\Documents\GitHub\CooperativeTaxiTravels\bin\Debug\Images\PlayerL1.png
+C:\Users\Granter\Documents\GitHub\CooperativeTaxiTravels\bin\Debug\Images\PlayerL2.png
+C:\Users\Granter\Documents\GitHub\CooperativeTaxiTravels\bin\Debug\Images\PlayerL3.png

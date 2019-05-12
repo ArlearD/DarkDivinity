@@ -34,9 +34,9 @@ S TTST  TG
 TTTTTTTTTTTTTTTTTTTT
                     
               T     
-                    
+              T     
            TTTTT    
- P                  
+ P        T         
 TTTTTTTTTTTTTTTTTTTT";
         public static ICreature[,] Map;
         public static int Scores;
