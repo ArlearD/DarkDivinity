@@ -1,22 +1,54 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+﻿using System.Windows.Forms;
 
-namespace DarkDivinity
+namespace Digger
 {
-    public partial class Game : Form
+    public static class Game
     {
-        public Game()
+        private const string mapWithPlayerTerrain = @"
+TTT T
+TTP T
+T T T
+TT TT";
+
+        private const string mapWithPlayerTerrainSackGold = @"
+PTTGTT TS
+TST  TSTT
+TTTTTTSTT
+T TSTS TT
+T TTTG ST
+TSTSTT TT";
+
+        private const string mapWithPlayerTerrainSackGoldMonster = @"
+PTTGTT TST
+TST  TSTTM
+TTT TTSTTT
+T TSTS TTT
+T TTTGMSTS
+T TMT M TS
+TSTSTTMTTT
+S TTST  TG
+ TGST MTTT
+ T  TMTTTT";
+
+        private const string newMap = @"
+TTTTTTTTTTTTTTTTTTTT
+                    
+              T     
+                    
+           TTTTT    
+ P                  
+TTTTTTTTTTTTTTTTTTTT";
+        public static ICreature[,] Map;
+        public static int Scores;
+        public static bool IsOver;
+
+        public static Keys KeyPressed;
+        public static int MapWidth => Map.GetLength(0);
+        public static int MapHeight => Map.GetLength(1);
+
+        public static void CreateMap()
         {
-            InitializeComponent();
-            Cursor.Hide();
-            this.KeyDown += new KeyEventHandler(OKP);
+            Map = CreatureMapCreator.CreateMap(newMap);
         }
     }
 }
