@@ -32,6 +32,7 @@
     {
         public bool RunState = false;
         public int RunFrame = 1;
+        public bool RightState = false;
         public CreatureCommand Act(int x, int y)
         {
             int xvalue = 0;
@@ -41,10 +42,12 @@
                 case System.Windows.Forms.Keys.Left:
                     if (x - 1 >= 0)
                         xvalue = -1;
+                    RightState = false;
                     break;
                 case System.Windows.Forms.Keys.Right:
                     if (x + 1 < Game.MapWidth)
                         xvalue = 1;
+                    RightState = true;
                     break;
                 case System.Windows.Forms.Keys.Up:
                     for (int i = 0; i <= 2; i++)
@@ -109,16 +112,29 @@
 
         public string GetImageFileName()
         {
-            if (RunState)
+            if (RightState)
             {
-                if (RunFrame >= 8) RunFrame = 1;
-                var currentFrame = RunFrame;
-                RunFrame++;
-                return "DiggerRun" + currentFrame + ".png";
+                if (RunState)
+                {
+                    if (RunFrame >= 8) RunFrame = 1;
+                    var currentFrame = RunFrame;
+                    RunFrame++;
+                    return "PlayerRun" + currentFrame + ".png";
+                }
+                else
+                    return "Player.png";
             }
             else
             {
-                return "Digger.png";
+                if (RunState)
+                {
+                    if (RunFrame >= 8) RunFrame = 1;
+                    var currentFrame = RunFrame;
+                    RunFrame++;
+                    return "PlayerRunL" + currentFrame + ".png";
+                }
+                else
+                    return "PlayerL.png";
             }
         }
     }
