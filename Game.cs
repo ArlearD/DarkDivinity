@@ -52,11 +52,11 @@ T                                      T
 T                                      T
 T                               T      T
 T                                      T
-T                                      T
-T                                     TT
-T                   TTT   TTT   TTT    T
+T                                 T    T
+T                                    TTT
+T                  TTT   TTT   TTT     T
 T                TTT                   T
-T    P         T                       T
+T    P         T       SSSSSSSSSSSSSSSST
 TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT";
         public static ICreature[,] Map;
         public static int Scores;

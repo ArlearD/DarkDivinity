@@ -35,7 +35,6 @@
         private int RunFrame = 1;
         private bool RightState = false;
         private bool Falling = false;
-        private bool Flyer = false;
         private bool Rush = false;
 
         public int LastxMove = 0;
@@ -58,27 +57,27 @@
                     RightState = true;
                     break;
                 case System.Windows.Forms.Keys.Up:
-                    if (!Falling)
+                    for (int i = 1; i <= 2; i++)
                     {
-                        for (int i = 1; i <= 2; i++)
+                        if (y - i >= 0 &&
+                            Game.Map[x, y + 1] != null
+                            && Game.Map[x, y + 1].ToString() == "Digger.Terrain"
+                            && Game.Map[x, y - i] == null)
                         {
-                            if (y - i >= 0 &&
-                                Game.Map[x, y + 1] != null
-                                && Game.Map[x, y + 1].ToString() == "Digger.Terrain"
-                                && Game.Map[x, y - i] == null)
+                            if (LastxMove != 0)
                             {
-                                if (LastxMove != 0)
-                                {
-                                    xvalue = LastxMove;
-                                }
+                                xvalue = LastxMove;
                                 yvalue = -i;
                             }
                             else
                             {
-                                break;
+                                yvalue = -i;
                             }
                         }
-                        Flyer = true;
+                        else
+                        {
+                            break;
+                        }
                         RunState = false;
                         Falling = true;
                     }
@@ -88,7 +87,6 @@
                     {
                         if (x - i >= 0 && x + i <= Game.MapWidth &&
                             Game.Map[x + i, y] == null
-                            //&& Game.Map[x, y + 1].ToString() == "Digger.Terrain"
                             && Game.Map[x - i, y] == null)
                         {
                             if (LastxMove != 0)
@@ -98,7 +96,7 @@
                                     xvalue = i;
                                 }
                                 else
-                                xvalue = -i;
+                                    xvalue = -i;
                                 Rush = true;
                             }
                         }
@@ -114,7 +112,7 @@
                     LastxMove = 0;
                     break;
             }
-            if (y + 1 < Game.MapHeight && Game.Map[x, y + 1] == null)
+            if (y + 1 < Game.MapHeight && Game.Map[x, y + 1] == null || Game.Map[x,y+1].ToString() == "Digger.Sack")
             {
                 yvalue = 1;
             }
@@ -123,7 +121,7 @@
             {
                 RunState = true;
             }
-            if (yvalue > 0)
+            if (yvalue != 0)
             {
                 Falling = true;
             }
@@ -131,10 +129,8 @@
 
             if (Game.Map[x, y + yvalue] != null)
             {
-                if (Game.Map[x, y + yvalue].ToString() == "Digger.Sack"
-                    || Game.Map[x, y + yvalue].ToString() == "Digger.Terrain")
+                if (Game.Map[x, y + yvalue].ToString() == "Digger.Terrain")
                 {
-                    RunState = false;
                     return new CreatureCommand
                     {
                         DeltaX = xvalue,
@@ -145,8 +141,7 @@
 
             if (Game.Map[x + xvalue, y] != null)
             {
-                if (Game.Map[x + xvalue, y].ToString() == "Digger.Sack"
-                    || Game.Map[x + xvalue, y].ToString() == "Digger.Terrain")
+                if (Game.Map[x + xvalue, y].ToString() == "Digger.Terrain")
                 {
                     RunState = false;
                     return new CreatureCommand
@@ -158,10 +153,8 @@
             }
             if (Game.Map[x + xvalue, y + yvalue] != null)
             {
-                if (Game.Map[x + xvalue, y + yvalue].ToString() == "Digger.Sack"
-                    || Game.Map[x + xvalue, y + yvalue].ToString() == "Digger.Terrain")
+                if (Game.Map[x + xvalue, y + yvalue].ToString() == "Digger.Terrain")
                 {
-                    RunState = false;
                     return new CreatureCommand
                     {
                         DeltaX = xvalue,

@@ -28,7 +28,7 @@ namespace Digger
             foreach (var e in files)
                 bitmaps[e.Name] = (Bitmap) Image.FromFile(e.FullName);
             var timer = new Timer();
-            timer.Interval = 16;//15
+            timer.Interval = 15;//15
             timer.Tick += TimerTick;
             timer.Start();
         }
@@ -59,7 +59,10 @@ namespace Digger
                 Brushes.Black, 0, 0, GameState.ElementSize * Game.MapWidth,
                 GameState.ElementSize * Game.MapHeight);
             foreach (var a in gameState.Animations)
+            {
+                bitmaps[a.Creature.GetImageFileName()].MakeTransparent();
                 e.Graphics.DrawImage(bitmaps[a.Creature.GetImageFileName()], a.Location);
+            }
             e.Graphics.ResetTransform();
             e.Graphics.DrawString(Game.Scores.ToString(), new Font("Arial", 16), Brushes.Green, 0, 0);
         }
