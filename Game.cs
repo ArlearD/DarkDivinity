@@ -38,6 +38,26 @@ TTTTTTTTTTTTTTTTTTTT
            TTTTT    
  P        T         
 TTTTTTTTTTTTTTTTTTTT";
+
+        private const string newMap2 = @"
+TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT
+T                                      T
+T                                      T
+T                                      T
+T                                      T
+T                                      T
+T                                      T
+T                                      T
+T                                      T
+T                                      T
+T                               T      T
+T                                      T
+T                                      T
+T                                     TT
+T                   TTT   TTT   TTT    T
+T                TTT                   T
+T    P         T                       T
+TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT";
         public static ICreature[,] Map;
         public static int Scores;
         public static bool IsOver;
@@ -48,7 +68,7 @@ TTTTTTTTTTTTTTTTTTTT";
 
         public static void CreateMap()
         {
-            Map = CreatureMapCreator.CreateMap(newMap);
+            Map = CreatureMapCreator.CreateMap(newMap2);
         }
     }
 }

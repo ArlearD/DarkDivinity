@@ -30,12 +30,15 @@
 
     public class Player : ICreature
     {
-        public bool RunState = false;
-        public int StayFrame = 0;
-        public int RunFrame = 1;
-        public bool RightState = false;
-        public bool Falling = false;
-        public bool Flyer = false;
+        private bool RunState = false;
+        private int StayFrame = 0;
+        private int RunFrame = 1;
+        private bool RightState = false;
+        private bool Falling = false;
+        private bool Flyer = false;
+        private bool Rush = false;
+
+        public int LastxMove = 0;
         public CreatureCommand Act(int x, int y)
         {
             int xvalue = 0;
@@ -45,47 +48,75 @@
                 case System.Windows.Forms.Keys.Left:
                     if (x - 1 >= 0)
                         xvalue = -1;
+                    LastxMove = xvalue;
                     RightState = false;
                     break;
                 case System.Windows.Forms.Keys.Right:
                     if (x + 1 < Game.MapWidth)
                         xvalue = 1;
+                    LastxMove = xvalue;
                     RightState = true;
                     break;
                 case System.Windows.Forms.Keys.Up:
-                    for (int i = 0; i <= 2; i++)
+                    if (!Falling)
                     {
-                        if (y - i >= 0 &&
-                            Game.Map[x, y + 1] != null 
-                            && Game.Map[x, y + 1].ToString() == "Digger.Terrain"
-                            && Game.Map[x, y - i] == null)
+                        for (int i = 1; i <= 2; i++)
                         {
-                            yvalue = -i;
+                            if (y - i >= 0 &&
+                                Game.Map[x, y + 1] != null
+                                && Game.Map[x, y + 1].ToString() == "Digger.Terrain"
+                                && Game.Map[x, y - i] == null)
+                            {
+                                if (LastxMove != 0)
+                                {
+                                    xvalue = LastxMove;
+                                }
+                                yvalue = -i;
+                            }
+                            else
+                            {
+                                break;
+                            }
+                        }
+                        Flyer = true;
+                        RunState = false;
+                        Falling = true;
+                    }
+                    break;
+                case System.Windows.Forms.Keys.Z:
+                    for (int i = 1; i <= 2; i++)
+                    {
+                        if (x - i >= 0 && x + i <= Game.MapWidth &&
+                            Game.Map[x + i, y] == null
+                            //&& Game.Map[x, y + 1].ToString() == "Digger.Terrain"
+                            && Game.Map[x - i, y] == null)
+                        {
+                            if (LastxMove != 0)
+                            {
+                                if (RightState)
+                                {
+                                    xvalue = i;
+                                }
+                                else
+                                xvalue = -i;
+                                Rush = true;
+                            }
+                        }
+                        else
+                        {
+                            break;
                         }
                     }
-                    Flyer = true;
+                    break;
+                default:
                     RunState = false;
                     Falling = false;
-                    break;
-                case System.Windows.Forms.Keys.Down:
-                    if (y + 1 < Game.MapHeight)
-                        yvalue = 1;
-                    break;
-                case System.Windows.Forms.Keys.None:
-                    RunState = false;
-                    Falling = false;
+                    LastxMove = 0;
                     break;
             }
             if (y + 1 < Game.MapHeight && Game.Map[x, y + 1] == null)
             {
-                if (Flyer)
-                {
-                    Flyer = !Flyer;
-                }
-                else
-                {
-                    yvalue++;
-                }
+                yvalue = 1;
             }
 
             if (xvalue != 0)
@@ -166,6 +197,11 @@
             if (!RightState)
             {
                 Fix = "L";
+            }
+            if (Rush)
+            {
+                Rush = false;
+                return "PlayerRush" + Fix + ".png";
             }
 
             if (RunState && !Falling)

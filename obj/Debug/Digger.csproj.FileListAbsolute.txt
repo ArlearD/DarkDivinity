@@ -67,3 +67,5 @@ C:\Users\Granter\Documents\GitHub\CooperativeTaxiTravels\bin\Debug\Images\Player
 C:\Users\Granter\Documents\GitHub\CooperativeTaxiTravels\bin\Debug\Images\PlayerL1.png
 C:\Users\Granter\Documents\GitHub\CooperativeTaxiTravels\bin\Debug\Images\PlayerL2.png
 C:\Users\Granter\Documents\GitHub\CooperativeTaxiTravels\bin\Debug\Images\PlayerL3.png
+C:\Users\Granter\Documents\GitHub\CooperativeTaxiTravels\bin\Debug\Images\PlayerRush.png
+C:\Users\Granter\Documents\GitHub\CooperativeTaxiTravels\bin\Debug\Images\PlayerRushL.png
