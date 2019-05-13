@@ -13,14 +13,37 @@ namespace Digger
         public void BeginAct()
         {
             Animations.Clear();
+
+            var command = new CreatureCommand();
+
+            for (var x = 0; x < Game.MapWidth; x++)
+                for (var y = 0; y < Game.MapHeight; y++)
+                {
+                    var creature = Game.Map[x, y];
+                    if (creature == null) continue;
+                    if (creature.ToString() == "Digger.Player")
+                    {
+                        command = creature.Act(x, y);
+                        Animations.Add(
+    new CreatureAnimation
+    {
+        Command = command,
+        Creature = creature,
+        Location = new Point(x * ElementSize, y * ElementSize),
+        TargetLogicalLocation = new Point(x + command.DeltaX, y + command.DeltaY)
+    });
+                    }
+                }
+
             for (var x = 0; x < Game.MapWidth; x++)
             for (var y = 0; y < Game.MapHeight; y++)
             {
                 var creature = Game.Map[x, y];
-                if (creature == null) continue;
-                var command = creature.Act(x, y);
+                if (creature == null || creature.ToString() == "Digger.Player") continue;
+                        command = creature.Act(x, y);
+                    
 
-                if (x + command.DeltaX < 0 || x + command.DeltaX >= Game.MapWidth || y + command.DeltaY < 0 ||
+                    if (x + command.DeltaX < 0 || x + command.DeltaX >= Game.MapWidth || y + command.DeltaY < 0 ||
                     y + command.DeltaY >= Game.MapHeight)
                     throw new Exception($"The object {creature.GetType()} falls out of the game field");
 
@@ -40,8 +63,9 @@ namespace Digger
         public void EndAct()
         {
             var creaturesPerLocation = GetCandidatesPerLocation();
+
             for (var x = 0; x < Game.MapWidth; x++)
-            for (var y = 0; y < Game.MapHeight; y++)
+                for (var y = 0; y < Game.MapHeight; y++)
                 Game.Map[x, y] = SelectWinnerCandidatePerLocation(creaturesPerLocation, x, y);
         }
 
@@ -51,12 +75,11 @@ namespace Digger
             var aliveCandidates = candidates.ToList();
             foreach (var candidate in candidates)
             foreach (var rival in candidates)
-                if (rival != candidate && candidate.DeadInConflict(rival))
-                    aliveCandidates.Remove(candidate);
+                    if (rival != candidate && candidate.DeadInConflict(rival))
+                        aliveCandidates.Remove(candidate);
             if (aliveCandidates.Count > 1)
                 throw new Exception(
                     $"Creatures {aliveCandidates[0].GetType().Name} and {aliveCandidates[1].GetType().Name} claimed the same map cell");
-
             return aliveCandidates.FirstOrDefault();
         }
 

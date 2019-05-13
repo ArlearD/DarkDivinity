@@ -57,6 +57,8 @@ namespace Digger
                     return CreateCreatureByTypeName("Sack");
                 case 'M':
                     return CreateCreatureByTypeName("Monster");
+                case 'H':
+                    return CreateCreatureByTypeName("Slash");
                 case ' ':
                     return null;
                 default:

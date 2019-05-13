@@ -58,6 +58,7 @@ namespace Digger
             e.Graphics.FillRectangle(
                 Brushes.Black, 0, 0, GameState.ElementSize * Game.MapWidth,
                 GameState.ElementSize * Game.MapHeight);
+
             foreach (var a in gameState.Animations)
             {
                 bitmaps[a.Creature.GetImageFileName()].MakeTransparent();
