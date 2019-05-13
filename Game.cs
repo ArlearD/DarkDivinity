@@ -1,4 +1,5 @@
-﻿using System.Windows.Forms;
+﻿using System.Drawing;
+using System.Windows.Forms;
 
 namespace Digger
 {
@@ -44,11 +45,11 @@ TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT
 T                                      T
 T                                      T
 T                                      T
+T                      TTTT            T
 T                                      T
+T                           T          T
 T                                      T
-T                                      T
-T                                      T
-T                                      T
+T                             T        T
 T                                      T
 T                               T      T
 T                                      T
@@ -69,6 +70,21 @@ TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT";
         public static void CreateMap()
         {
             Map = CreatureMapCreator.CreateMap(newMap2);
+        }
+
+        public static Point GetPosition(ICreature cr)
+        {
+            for (int i = 0; i < MapWidth; i++)
+            {
+                for (int k = 0; k < MapHeight; k++)
+                {
+                    if (Map[i,k] != null && Map[i,k].ToString() == cr.ToString())
+                    {
+                        return new Point(i, k);
+                    }
+                }
+            }
+            return Point.Empty;
         }
     }
 }

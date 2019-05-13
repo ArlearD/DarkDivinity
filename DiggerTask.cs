@@ -9,11 +9,6 @@
 
         public bool DeadInConflict(ICreature conflictedObject)
         {
-            if (conflictedObject.GetImageFileName() == "Digger.png" ||
-                conflictedObject.GetImageFileName() == "Monster.png")
-            {
-                return true;
-            }
             return false;
         }
 
@@ -44,6 +39,18 @@
             int yvalue = 0;
             switch (Game.KeyPressed)
             {
+                case System.Windows.Forms.Keys.C:
+                    var pos = Game.GetPosition(this);
+                    if (RightState)
+                    {
+                        Game.Map[pos.X + 1, pos.Y] = new Slash(RightState);
+                        
+                    }
+                    else
+                    {
+                        Game.Map[pos.X - 1, pos.Y] = new Slash(RightState);
+                    }
+                    break;
                 case System.Windows.Forms.Keys.Left:
                     if (x - 1 >= 0)
                         xvalue = -1;
@@ -57,6 +64,7 @@
                     RightState = true;
                     break;
                 case System.Windows.Forms.Keys.Up:
+                    RunState = false;
                     for (int i = 1; i <= 2; i++)
                     {
                         if (y - i >= 0 &&
@@ -78,7 +86,6 @@
                         {
                             break;
                         }
-                        RunState = false;
                         Falling = true;
                     }
                     break;
@@ -211,17 +218,17 @@
 
             if (!Falling)
             {
-                if (StayFrame >= 30)
+                if (StayFrame >= 100)
                 {
                     StayFrame = 0;
                 }
                 StayFrame++;
 
-                if (StayFrame < 10)
+                if (StayFrame < 33)
                 {
                     return "Player" + Fix + "1.png";
                 }
-                else if (StayFrame < 20)
+                else if (StayFrame < 66)
                 {
                     return "Player" + Fix + "2.png";
                 }
@@ -318,7 +325,7 @@
         }
     }
 
-    public class Checker
+    public static class Checker
     {
         public static bool Check(int x, int y, int moveX, int moveY)
         {
@@ -382,6 +389,45 @@
         public string GetImageFileName()
         {
             return "Monster.png";
+        }
+    }
+    public class Slash : ICreature
+    {
+        private bool RightState;
+
+        public Slash(bool RightState)
+        {
+            this.RightState = RightState;
+        }
+        public CreatureCommand Act(int x, int y)
+        {
+            int xMove;
+
+            if (RightState)
+                xMove = 1;
+            else
+                xMove = -1;
+
+            return new CreatureCommand
+            {
+                DeltaX = xMove,
+                DeltaY = 0
+            };
+        }
+
+        public bool DeadInConflict(ICreature conflictedObject)
+        {
+            return true;
+        }
+
+        public int GetDrawingPriority()
+        {
+            return 2;
+        }
+
+        public string GetImageFileName()
+        {
+            return "Sack.png";
         }
     }
 }
