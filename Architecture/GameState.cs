@@ -7,6 +7,7 @@ namespace Digger
 {
     public class GameState
     {
+        public int Count;
         public const int ElementSize = 32;
         public List<CreatureAnimation> Animations = new List<CreatureAnimation>();
 
@@ -25,48 +26,55 @@ namespace Digger
                     {
                         command = creature.Act(x, y);
                         Animations.Add(
-    new CreatureAnimation
-    {
-        Command = command,
-        Creature = creature,
-        Location = new Point(x * ElementSize, y * ElementSize),
-        TargetLogicalLocation = new Point(x + command.DeltaX, y + command.DeltaY)
-    });
+                            new CreatureAnimation
+                            {
+                                Command = command,
+                                Creature = creature,
+                                Location = new Point(x * ElementSize, y * ElementSize),
+                                TargetLogicalLocation = new Point(x + command.DeltaX, y + command.DeltaY)
+                            });
                     }
                 }
 
             for (var x = 0; x < Game.MapWidth; x++)
-            for (var y = 0; y < Game.MapHeight; y++)
-            {
-                var creature = Game.Map[x, y];
-                if (creature == null || creature.ToString() == "Digger.Player") continue;
-                        command = creature.Act(x, y);
-                    
+                for (var y = 0; y < Game.MapHeight; y++)
+                {
+                    var creature = Game.Map[x, y];
+                    if (creature is Slash && (creature as Slash).Count == 4)
+                        continue;
+
+
+                    if (creature is Attack && (creature as Attack).Count == 1)
+                        continue;
+                    if (creature == null || creature.ToString() == "Digger.Player") continue;
+                    command = creature.Act(x, y);
+
 
                     if (x + command.DeltaX < 0 || x + command.DeltaX >= Game.MapWidth || y + command.DeltaY < 0 ||
                     y + command.DeltaY >= Game.MapHeight)
-                    throw new Exception($"The object {creature.GetType()} falls out of the game field");
-
-                Animations.Add(
-                    new CreatureAnimation
-                    {
-                        Command = command,
-                        Creature = creature,
-                        Location = new Point(x * ElementSize, y * ElementSize),
-                        TargetLogicalLocation = new Point(x + command.DeltaX, y + command.DeltaY)
-                    });
-            }
+                        throw new Exception($"The object {creature.GetType()} falls out of the game field");
+                   
+                        Animations.Add(
+                            new CreatureAnimation
+                            {
+                                Command = command,
+                                Creature = creature,
+                                Location = new Point(x * ElementSize, y * ElementSize),
+                                TargetLogicalLocation = new Point(x + command.DeltaX, y + command.DeltaY)
+                            });
+                }
 
             Animations = Animations.OrderByDescending(z => z.Creature.GetDrawingPriority()).ToList();
         }
 
         public void EndAct()
         {
+            
             var creaturesPerLocation = GetCandidatesPerLocation();
 
             for (var x = 0; x < Game.MapWidth; x++)
                 for (var y = 0; y < Game.MapHeight; y++)
-                Game.Map[x, y] = SelectWinnerCandidatePerLocation(creaturesPerLocation, x, y);
+                    Game.Map[x, y] = SelectWinnerCandidatePerLocation(creaturesPerLocation, x, y);
         }
 
         private static ICreature SelectWinnerCandidatePerLocation(List<ICreature>[,] creatures, int x, int y)
@@ -74,7 +82,7 @@ namespace Digger
             var candidates = creatures[x, y];
             var aliveCandidates = candidates.ToList();
             foreach (var candidate in candidates)
-            foreach (var rival in candidates)
+                foreach (var rival in candidates)
                     if (rival != candidate && candidate.DeadInConflict(rival))
                         aliveCandidates.Remove(candidate);
             if (aliveCandidates.Count > 1)
@@ -87,8 +95,8 @@ namespace Digger
         {
             var creatures = new List<ICreature>[Game.MapWidth, Game.MapHeight];
             for (var x = 0; x < Game.MapWidth; x++)
-            for (var y = 0; y < Game.MapHeight; y++)
-                creatures[x, y] = new List<ICreature>();
+                for (var y = 0; y < Game.MapHeight; y++)
+                    creatures[x, y] = new List<ICreature>();
             foreach (var e in Animations)
             {
                 var x = e.TargetLogicalLocation.X;

@@ -1,5 +1,6 @@
 ﻿using System.Drawing;
 using System.Windows.Forms;
+using System.Collections.Generic;
 
 namespace Digger
 {
@@ -37,7 +38,7 @@ TTTTTTTTTTTTTTTTTTTT
               T     
               T     
            TTTTT    
- P        T         
+ P        T        T
 TTTTTTTTTTTTTTTTTTTT";
 
         private const string newMap2 = @"
@@ -69,22 +70,23 @@ TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT";
 
         public static void CreateMap()
         {
-            Map = CreatureMapCreator.CreateMap(newMap2);
+            Map = CreatureMapCreator.CreateMap(newMap);
         }
 
-        public static Point GetPosition(ICreature cr)
+        public static List<Point> GetPosition(ICreature cr)
         {
+            List<Point> list = new List<Point>();
             for (int i = 0; i < MapWidth; i++)
             {
                 for (int k = 0; k < MapHeight; k++)
                 {
                     if (Map[i,k] != null && Map[i,k].ToString() == cr.ToString())
                     {
-                        return new Point(i, k);
+                        list.Add(new Point(i, k));
                     }
                 }
             }
-            return Point.Empty;
+            return list;
         }
     }
 }

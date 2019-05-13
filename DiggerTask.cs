@@ -1,4 +1,6 @@
-﻿namespace Digger
+﻿using System;
+using System.Linq;
+namespace Digger
 {
     public class Terrain : ICreature
     {
@@ -31,24 +33,41 @@
         private bool RightState = false;
         private bool Falling = false;
         private bool Rush = false;
+        private int Count;
 
         public int LastxMove = 0;
         public CreatureCommand Act(int x, int y)
         {
+            Count++;
             int xvalue = 0;
             int yvalue = 0;
+            var pos = Game.GetPosition(this).FirstOrDefault();
             switch (Game.KeyPressed)
             {
                 case System.Windows.Forms.Keys.C:
-                    var pos = Game.GetPosition(this);
-                    if (RightState)
+                    
+                    if (RightState && pos.X + 1 < Game.MapWidth - 1 && Game.Map[pos.X + 1, pos.Y] == null && Count>12)
                     {
+                        Count=0;
                         Game.Map[pos.X + 1, pos.Y] = new Slash(RightState);
-                        
                     }
-                    else
+                    else if (pos.X - 1 > 0 && !RightState && Game.Map[pos.X - 1, pos.Y] == null && Count>12)
                     {
+                        Count = 0;
                         Game.Map[pos.X - 1, pos.Y] = new Slash(RightState);
+                    }
+                    break;
+                case System.Windows.Forms.Keys.X:
+                    
+                    if (RightState && pos.X + 1 < Game.MapWidth - 1 && Game.Map[pos.X + 1, pos.Y] == null && Count > 3)
+                    {
+                        Count = 0;
+                        Game.Map[pos.X + 1, pos.Y] = new Attack(RightState);
+                    }
+                    else if (pos.X - 1 > 0 && !RightState && Game.Map[pos.X - 1, pos.Y] == null && Count > 3)
+                    {
+                        Count = 0;
+                        Game.Map[pos.X - 1, pos.Y] = new Attack(RightState);
                     }
                     break;
                 case System.Windows.Forms.Keys.Left:
@@ -119,7 +138,7 @@
                     LastxMove = 0;
                     break;
             }
-            if (y + 1 < Game.MapHeight && Game.Map[x, y + 1] == null || Game.Map[x,y+1].ToString() == "Digger.Sack")
+            if (y + 1 < Game.MapHeight && Game.Map[x, y + 1] == null || Game.Map[x, y + 1].ToString() == "Digger.Sack")
             {
                 yvalue = 1;
             }
@@ -394,6 +413,7 @@
     public class Slash : ICreature
     {
         private bool RightState;
+        public int Count;
 
         public Slash(bool RightState)
         {
@@ -401,6 +421,8 @@
         }
         public CreatureCommand Act(int x, int y)
         {
+            Count++;
+
             int xMove;
 
             if (RightState)
@@ -419,6 +441,43 @@
         {
             return true;
         }
+
+
+        public int GetDrawingPriority()
+        {
+            return 2;
+        }
+
+        public string GetImageFileName()
+        {
+            return "Sack.png";
+        }
+    }
+
+    public class Attack : ICreature
+    {
+        private bool RightState;
+        public int Count;
+
+        public Attack(bool RightState)
+        {
+            this.RightState = RightState;
+        }
+        public CreatureCommand Act(int x, int y)
+        {
+            Count++;
+            return new CreatureCommand
+            {
+                DeltaX = 0,
+                DeltaY = 0
+            };
+        }
+
+        public bool DeadInConflict(ICreature conflictedObject)
+        {
+            return true;
+        }
+
 
         public int GetDrawingPriority()
         {

@@ -46,6 +46,8 @@ namespace Digger
             Game.KeyPressed = e.KeyCode;
         }
 
+
+
         protected override void OnKeyUp(KeyEventArgs e)
         {
             pressedKeys.Remove(e.KeyCode);
