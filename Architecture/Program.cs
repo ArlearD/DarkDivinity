@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace Digger
+namespace DarkDivinity
 {
     internal static class Program
     {
@@ -11,7 +11,7 @@ namespace Digger
         {
             Maps.AddMaps();
             NextMap();
-            var form = new DiggerWindow();
+            var form = new DarkDivinityWindow();
             Application.Run(form);
         }
         public static void NextMap()

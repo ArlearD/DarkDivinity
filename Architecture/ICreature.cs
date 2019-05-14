@@ -1,4 +1,4 @@
-﻿namespace Digger
+﻿namespace DarkDivinity
 {
     public interface ICreature
     {

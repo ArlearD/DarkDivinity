@@ -27,7 +27,6 @@ C:\Users\Granter\Documents\GitHub\CooperativeTaxiTravels\bin\Debug\11-digger.exe
 C:\Users\Granter\Documents\GitHub\CooperativeTaxiTravels\bin\Debug\11-digger.pdb
 C:\Users\Granter\Documents\GitHub\CooperativeTaxiTravels\bin\Debug\nunit.framework.dll
 C:\Users\Granter\Documents\GitHub\CooperativeTaxiTravels\obj\Debug\Digger.csprojAssemblyReference.cache
-C:\Users\Granter\Documents\GitHub\CooperativeTaxiTravels\obj\Debug\Digger.Properties.Resources.resources
 C:\Users\Granter\Documents\GitHub\CooperativeTaxiTravels\obj\Debug\Digger.csproj.GenerateResource.cache
 C:\Users\Granter\Documents\GitHub\CooperativeTaxiTravels\obj\Debug\Digger.csproj.CoreCompileInputs.cache
 C:\Users\Granter\Documents\GitHub\CooperativeTaxiTravels\obj\Debug\Digger.csproj.CopyComplete
@@ -194,3 +193,8 @@ C:\Users\waler\Documents\GitHub\DarkDivinity\bin\Debug\Images\MonsterL2.png
 C:\Users\waler\Documents\GitHub\DarkDivinity\bin\Debug\Images\MonsterL3.png
 C:\Users\waler\Documents\GitHub\DarkDivinity\bin\Debug\Images\MonsterL4.png
 C:\Users\waler\Documents\GitHub\DarkDivinity\obj\Debug\DarkDivinity.Properties.Resources.resources
+C:\Users\Granter\Documents\GitHub\CooperativeTaxiTravels\bin\Debug\Images\Exit2.png
+C:\Users\Granter\Documents\GitHub\CooperativeTaxiTravels\bin\Debug\Images\Exit3.png
+C:\Users\Granter\Documents\GitHub\CooperativeTaxiTravels\bin\Debug\Images\Exit4.png
+C:\Users\Granter\Documents\GitHub\CooperativeTaxiTravels\bin\Debug\Images\Exit5.png
+C:\Users\Granter\Documents\GitHub\CooperativeTaxiTravels\obj\Debug\DarkDivinity.Properties.Resources.resources

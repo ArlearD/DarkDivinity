@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 
-namespace Digger
+namespace DarkDivinity
 {
     public class GameState
     {
-        bool Stop = false;
         public int Count;
         public const int ElementSize = 45;
         public List<CreatureAnimation> Animations = new List<CreatureAnimation>();
@@ -23,7 +22,7 @@ namespace Digger
                 {
                     var creature = Game.Map[x, y];
                     if (creature == null) continue;
-                    if (creature.ToString() == "Digger.Player")
+                    if (creature.ToString() == "DarkDivinity.Player")
                     {
                         command = creature.Act(x, y);
                         Animations.Add(
@@ -47,7 +46,7 @@ namespace Digger
 
                     if (creature is Attack && (creature as Attack).Count == 1)
                         continue;
-                    if (creature == null || creature.ToString() == "Digger.Player") continue;
+                    if (creature == null || creature.ToString() == "DarkDivinity.Player") continue;
                     command = creature.Act(x, y);
 
 

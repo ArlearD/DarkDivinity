@@ -5,9 +5,9 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace Digger
+namespace DarkDivinity
 {
-    public class DiggerWindow : Form
+    public class DarkDivinityWindow : Form
     {
         private readonly Dictionary<string, Bitmap> bitmaps = new Dictionary<string, Bitmap>();
         public static GameState gameState;
@@ -15,7 +15,7 @@ namespace Digger
         private int tickCount;
 
 
-        public DiggerWindow(DirectoryInfo imagesDirectory = null)
+        public DarkDivinityWindow(DirectoryInfo imagesDirectory = null)
         {
             gameState = new GameState();
             ClientSize = new Size(
@@ -71,8 +71,8 @@ namespace Digger
 
         private void TimerTick(object sender, EventArgs args)
         {
-            var portal = Game.GetPosition("Digger.Exit").FirstOrDefault();
-            var player = Game.GetPosition("Digger.Player").FirstOrDefault();
+            var portal = Game.GetPosition("DarkDivinity.Exit").FirstOrDefault();
+            var player = Game.GetPosition("DarkDivinity.Player").FirstOrDefault();
             if (player.X + 1 == portal.X && player.Y == portal.Y ||
                 player.X + 1 == portal.X && player.Y +1 == portal.Y ||
                 player.X + 1 == portal.X && player.Y -1 == portal.Y ||

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace Digger
+namespace DarkDivinity
 {
     public static class CreatureMapCreator
     {
@@ -23,11 +23,6 @@ namespace Digger
 
         private static ICreature CreateCreatureByTypeName(string name)
         {
-            // Это использование механизма рефлексии. 
-            // Ему посвящена одна из последних лекций второй части курса Основы программирования
-            // В обычном коде можно было обойтись без нее, но нам нужно было написать такой код,
-            // который работал бы, даже если вы ещё не создали класс Monster или Gold. 
-            // Просто написать new Gold() мы не могли, потому что это не скомпилировалось бы до создания класса Gold.
             if (!factory.ContainsKey(name))
             {
                 var type = Assembly
@@ -54,7 +49,7 @@ namespace Digger
                 case 'G':
                     return CreateCreatureByTypeName("Gold");
                 case 'S':
-                    return CreateCreatureByTypeName("Sack");
+                    return CreateCreatureByTypeName("Spike");
                 case 'M':
                     return CreateCreatureByTypeName("Monster");
                 case 'E':

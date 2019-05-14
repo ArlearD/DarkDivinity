@@ -1,6 +1,6 @@
 using System.Drawing;
 
-namespace Digger
+namespace DarkDivinity
 {
     public class CreatureAnimation
     {

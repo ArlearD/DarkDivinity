@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Digger.Properties {
+namespace DarkDivinity.Properties {
     using System;
     
     

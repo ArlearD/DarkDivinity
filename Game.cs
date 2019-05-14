@@ -2,7 +2,7 @@
 using System.Windows.Forms;
 using System.Collections.Generic;
 
-namespace Digger
+namespace DarkDivinity
 {
     public static class Game
     {
@@ -19,6 +19,13 @@ namespace Digger
         public static void CreateMap(string map)
         {
             Map = CreatureMapCreator.CreateMap(map);
+        }
+        public static bool Check(int x, int y, int moveX, int moveY)
+        {
+            return Game.Map[x + moveX, y + moveY] != null &&
+                (Game.Map[x + moveX, y + moveY].GetImageFileName() == "Spike.png"
+                || Game.Map[x + moveX, y + moveY].GetImageFileName() == "Terrain.png"
+                || Game.Map[x + moveX, y + moveY].GetImageFileName() == "Monster.png");
         }
 
         public static List<Point> GetPosition(string cr)

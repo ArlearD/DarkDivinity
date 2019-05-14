@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Threading;
 
-namespace Digger
+namespace DarkDivinity
 {
     public class Terrain : ICreature
     {
@@ -49,7 +49,7 @@ namespace Digger
             Count1++;
             int xvalue = 0;
             int yvalue = 0;
-            var pos = Game.GetPosition("Digger.Player").FirstOrDefault();
+            var pos = Game.GetPosition("DarkDivinity.Player").FirstOrDefault();
             switch (Game.KeyPressed)
             {
                 case System.Windows.Forms.Keys.C:
@@ -112,7 +112,7 @@ namespace Digger
                         {
                             if (y - i >= 0 &&
                                 Game.Map[x, y + 1] != null
-                                && Game.Map[x, y + 1].ToString() == "Digger.Terrain"
+                                && Game.Map[x, y + 1].ToString() == "DarkDivinity.Terrain"
                                 && Game.Map[x, y - i] == null)
                             {
                                 JumpFrames = 13;
@@ -166,7 +166,7 @@ namespace Digger
                     LastxMove = 0;
                     break;
             }
-            if (!(y + 1 < Game.MapHeight && Game.Map[x, y + 1] != null && Game.Map[x, y + 1].ToString() == "Digger.Terrain"))
+            if (!(y + 1 < Game.MapHeight && Game.Map[x, y + 1] != null && Game.Map[x, y + 1].ToString() == "DarkDivinity.Terrain"))
                 yvalue = 1;
 
             if (xvalue != 0)
@@ -181,7 +181,7 @@ namespace Digger
 
             if (Game.Map[x, y + yvalue] != null)
             {
-                if (Game.Map[x, y + yvalue].ToString() == "Digger.Terrain")
+                if (Game.Map[x, y + yvalue].ToString() == "DarkDivinity.Terrain")
                 {
                     return new CreatureCommand
                     {
@@ -193,7 +193,7 @@ namespace Digger
 
             if (Game.Map[x + xvalue, y] != null)
             {
-                if (Game.Map[x + xvalue, y].ToString() == "Digger.Terrain")
+                if (Game.Map[x + xvalue, y].ToString() == "DarkDivinity.Terrain")
                 {
                     RunState = false;
                     return new CreatureCommand
@@ -205,7 +205,7 @@ namespace Digger
             }
             if (Game.Map[x + xvalue, y + yvalue] != null)
             {
-                if (Game.Map[x + xvalue, y + yvalue].ToString() == "Digger.Terrain")
+                if (Game.Map[x + xvalue, y + yvalue].ToString() == "DarkDivinity.Terrain")
                 {
                     return new CreatureCommand
                     {
@@ -343,7 +343,7 @@ namespace Digger
         }
     }
 
-    public class Sack : ICreature
+    public class Spike : ICreature
     {
         int hight_of_falling = 0;
         public CreatureCommand Act(int x, int y)
@@ -351,8 +351,8 @@ namespace Digger
             if (y + 1 < Game.MapHeight)
             {
                 var element = Game.Map[x, y + 1];
-                if (element == null || ((element.ToString() == "Digger.Player" ||
-                    element.ToString() == "Digger.Monster") && hight_of_falling > 0))
+                if (element == null || ((element.ToString() == "DarkDivinity.Player" ||
+                    element.ToString() == "DarkDivinity.Monster") && hight_of_falling > 0))
                 {
                     hight_of_falling++;
                     return new CreatureCommand
@@ -394,7 +394,7 @@ namespace Digger
 
         public string GetImageFileName()
         {
-            return "Sack.png";
+            return "Spike.png";
         }
     }
 
@@ -407,7 +407,7 @@ namespace Digger
 
         public bool DeadInConflict(ICreature conflictedObject)
         {
-            if (conflictedObject.GetImageFileName() == "Digger.png" ||
+            if (conflictedObject.GetImageFileName() == "DarkDivinity.png" ||
                 conflictedObject.GetImageFileName() == "Monster.png")
             {
                 Game.Scores += 10;
@@ -427,17 +427,6 @@ namespace Digger
         }
     }
 
-    public static class Checker
-    {
-        public static bool Check(int x, int y, int moveX, int moveY)
-        {
-            return Game.Map[x + moveX, y + moveY] != null &&
-                (Game.Map[x + moveX, y + moveY].GetImageFileName() == "Sack.png"
-                || Game.Map[x + moveX, y + moveY].GetImageFileName() == "Terrain.png"
-                || Game.Map[x + moveX, y + moveY].GetImageFileName() == "Monster.png");
-        }
-    }
-
     public class Monster : ICreature
     {
         private int MoveFrames = 0;
@@ -447,8 +436,8 @@ namespace Digger
             int moveX = 0;
             int moveY = 0;
 
-            var pos = Game.GetPosition("Digger.Player").FirstOrDefault();
-            if (Math.Abs(x - pos.X) >= 7 || Math.Abs(y - pos.Y) >= 7)
+            var pos = Game.GetPosition("DarkDivinity.Player").FirstOrDefault();
+            if (Math.Abs(x - pos.X) >= 5 || Math.Abs(y - pos.Y) >= 5)
                 return new CreatureCommand
                 {
                     DeltaX = 0,
@@ -458,22 +447,22 @@ namespace Digger
                 for (int xOfPlayer = 0; xOfPlayer < Game.MapWidth; xOfPlayer++)
                     for (int yOfPlayer = 0; yOfPlayer < Game.MapHeight; yOfPlayer++)
                         if (Game.Map[xOfPlayer, yOfPlayer] != null &&
-                            Game.Map[xOfPlayer, yOfPlayer].ToString() == "Digger.Player")
+                            Game.Map[xOfPlayer, yOfPlayer].ToString() == "DarkDivinity.Player")
                         {
                             if (xOfPlayer - x > 0)
-                                if (Checker.Check(x, y, 1, 0))
+                                if (Game.Check(x, y, 1, 0))
                                     moveX = 0;
                                 else moveX = 1;
                             if (xOfPlayer - x < 0)
-                                if (Checker.Check(x, y, -1, 0))
+                                if (Game.Check(x, y, -1, 0))
                                     moveX = 0;
                                 else moveX = -1;
                             if (yOfPlayer - y > 0)
-                                if (Checker.Check(x, y, 0, 1))
+                                if (Game.Check(x, y, 0, 1))
                                     moveY = 0;
                                 else moveY = 1;
                             if (yOfPlayer - y < 0)
-                                if (Checker.Check(x, y, 0, -1))
+                                if (Game.Check(x, y, 0, -1))
                                     moveY = 0;
                                 else moveY = -1;
                         }
@@ -498,7 +487,7 @@ namespace Digger
 
         public bool DeadInConflict(ICreature conflictedObject)
         {
-            if (conflictedObject.ToString() == "Digger.Player")
+            if (conflictedObject.ToString() == "DarkDivinity.Player")
             {
                 return false;
             }
@@ -542,6 +531,7 @@ namespace Digger
             return "";
         }
     }
+
     public class Slash : ICreature
     {
         private bool RightState;
@@ -641,9 +631,9 @@ namespace Digger
 
     public class Exit : ICreature
     {
+        private int Frame = 0;
         public CreatureCommand Act(int x, int y)
         {
-            
             return new CreatureCommand()
             {
                 DeltaX = 0,
@@ -653,10 +643,9 @@ namespace Digger
 
         public bool DeadInConflict(ICreature conflictedObject)
         {
-            if (conflictedObject.ToString() == "Digger.Player")
+            if (conflictedObject.ToString() == "DarkDivinity.Player")
             {
-
-
+                Program.NextMap();
                 return false;
             }
             else
@@ -672,7 +661,33 @@ namespace Digger
 
         public string GetImageFileName()
         {
-            return "Exit1.png";
+            var scal = 30;
+            if (Frame >= 5 * scal)
+            {
+                Frame = 0;
+            }
+            Frame++;
+            if (Frame <= 1 * scal)
+            {
+                return "Exit1.png";
+            }
+            if (Frame <= 2 * scal)
+            {
+                return "Exit2.png";
+            }
+            if (Frame <= 3 * scal)
+            {
+                return "Exit3.png";
+            }
+            if (Frame <= 4 * scal)
+            {
+                return "Exit4.png";
+            }
+            if (Frame <= 5 * scal)
+            {
+                return "Exit5.png";
+            }
+            return "";
         }
     }
 }
