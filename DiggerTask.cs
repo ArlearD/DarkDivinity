@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Linq;
+using System.Threading;
+
 namespace Digger
 {
     public class Terrain : ICreature
@@ -47,7 +49,7 @@ namespace Digger
             Count1++;
             int xvalue = 0;
             int yvalue = 0;
-            var pos = Game.GetPosition(this).FirstOrDefault();
+            var pos = Game.GetPosition("Digger.Player").FirstOrDefault();
             switch (Game.KeyPressed)
             {
                 case System.Windows.Forms.Keys.C:
@@ -61,12 +63,12 @@ namespace Digger
                         break;
                     }
                     SlashAttackFrames = 38;
-                    if (RightState && pos.X + 1 < Game.MapWidth - 1 && Game.Map[pos.X + 1, pos.Y] == null && Count>12)
+                    if (RightState && pos.X + 1 < Game.MapWidth - 1 && Game.Map[pos.X + 1, pos.Y] == null && Count > 12)
                     {
-                        Count=0;
+                        Count = 0;
                         Game.Map[pos.X, pos.Y] = new Slash(RightState);
                     }
-                    else if (pos.X - 1 > 0 && !RightState && Game.Map[pos.X - 1, pos.Y] == null && Count>12)
+                    else if (pos.X - 1 > 0 && !RightState && Game.Map[pos.X - 1, pos.Y] == null && Count > 12)
                     {
                         Count = 0;
                         Game.Map[pos.X, pos.Y] = new Slash(RightState);
@@ -444,29 +446,38 @@ namespace Digger
         {
             int moveX = 0;
             int moveY = 0;
-            for (int xOfPlayer = 0; xOfPlayer < Game.MapWidth; xOfPlayer++)
-                for (int yOfPlayer = 0; yOfPlayer < Game.MapHeight; yOfPlayer++)
-                    if (Game.Map[xOfPlayer, yOfPlayer] != null &&
-                        Game.Map[xOfPlayer, yOfPlayer].ToString() == "Digger.Player")
-                    {
-                        if (xOfPlayer - x > 0)
-                            if (Checker.Check(x, y, 1, 0))
-                                moveX = 0;
-                            else moveX = 1;
-                        if (xOfPlayer - x < 0)
-                            if (Checker.Check(x, y, -1, 0))
-                                moveX = 0;
-                            else moveX = -1;
-                        if (yOfPlayer - y > 0)
-                            if (Checker.Check(x, y, 0, 1))
-                                moveY = 0;
-                            else moveY = 1;
-                        if (yOfPlayer - y < 0)
-                            if (Checker.Check(x, y, 0, -1))
-                                moveY = 0;
-                            else moveY = -1;
-                    }
-            if (Game.Map[x + moveX, y] !=null && (Game.Map[x + moveX, y].GetImageFileName() == "Slash.png" 
+
+            var pos = Game.GetPosition("Digger.Player").FirstOrDefault();
+            if (Math.Abs(x - pos.X) >= 7 || Math.Abs(y - pos.Y) >= 7)
+                return new CreatureCommand
+                {
+                    DeltaX = 0,
+                    DeltaY = 0
+                };
+            else
+                for (int xOfPlayer = 0; xOfPlayer < Game.MapWidth; xOfPlayer++)
+                    for (int yOfPlayer = 0; yOfPlayer < Game.MapHeight; yOfPlayer++)
+                        if (Game.Map[xOfPlayer, yOfPlayer] != null &&
+                            Game.Map[xOfPlayer, yOfPlayer].ToString() == "Digger.Player")
+                        {
+                            if (xOfPlayer - x > 0)
+                                if (Checker.Check(x, y, 1, 0))
+                                    moveX = 0;
+                                else moveX = 1;
+                            if (xOfPlayer - x < 0)
+                                if (Checker.Check(x, y, -1, 0))
+                                    moveX = 0;
+                                else moveX = -1;
+                            if (yOfPlayer - y > 0)
+                                if (Checker.Check(x, y, 0, 1))
+                                    moveY = 0;
+                                else moveY = 1;
+                            if (yOfPlayer - y < 0)
+                                if (Checker.Check(x, y, 0, -1))
+                                    moveY = 0;
+                                else moveY = -1;
+                        }
+            if (Game.Map[x + moveX, y] != null && (Game.Map[x + moveX, y].GetImageFileName() == "Slash.png"
                 || Game.Map[x + moveX, y].GetImageFileName() == "SlashL.png" ||
                 Game.Map[x + moveX, y].GetImageFileName() == "Attack.png" ||
                     Game.Map[x + moveX, y].GetImageFileName() == "AttackL.png"))
@@ -576,7 +587,7 @@ namespace Digger
                 return "Slash.png";
             }
             else
-            return "SlashL.png";
+                return "SlashL.png";
         }
     }
 
@@ -624,7 +635,7 @@ namespace Digger
                 return "Attack.png";
             }
             else
-            return "AttackL.png";
+                return "AttackL.png";
         }
     }
 
@@ -632,6 +643,7 @@ namespace Digger
     {
         public CreatureCommand Act(int x, int y)
         {
+            
             return new CreatureCommand()
             {
                 DeltaX = 0,
@@ -643,7 +655,8 @@ namespace Digger
         {
             if (conflictedObject.ToString() == "Digger.Player")
             {
-                Program.NextMap();
+
+
                 return false;
             }
             else

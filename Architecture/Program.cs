@@ -11,12 +11,15 @@ namespace Digger
         {
             Maps.AddMaps();
             NextMap();
-            Application.Run(new DiggerWindow());
+            var form = new DiggerWindow();
+            Application.Run(form);
         }
         public static void NextMap()
         {
+           
             Game.CreateMap(Maps.maps[CurrentMap]);
             CurrentMap++;
+           
         }
     }
 }

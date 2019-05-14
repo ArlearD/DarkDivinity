@@ -10,7 +10,7 @@ namespace Digger
     public class DiggerWindow : Form
     {
         private readonly Dictionary<string, Bitmap> bitmaps = new Dictionary<string, Bitmap>();
-        private readonly GameState gameState;
+        public static GameState gameState;
         private readonly HashSet<Keys> pressedKeys = new HashSet<Keys>();
         private int tickCount;
 
@@ -26,7 +26,7 @@ namespace Digger
                 imagesDirectory = new DirectoryInfo("Images");
             var files = imagesDirectory.GetFiles("*.png");
             foreach (var e in files)
-                bitmaps[e.Name] = (Bitmap) Image.FromFile(e.FullName);
+                bitmaps[e.Name] = (Bitmap)Image.FromFile(e.FullName);
             var timer = new Timer();
             timer.Interval = 15;//15
             timer.Tick += TimerTick;
@@ -36,7 +36,7 @@ namespace Digger
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
-            Text = "Digger";
+            Text = "DarkDivinity";
             DoubleBuffered = true;
         }
 
@@ -57,7 +57,7 @@ namespace Digger
         protected override void OnPaint(PaintEventArgs e)
         {
             e.Graphics.TranslateTransform(0, GameState.ElementSize);
-            e.Graphics.FillRectangle(Brushes.Black,0, 0, GameState.ElementSize * Game.MapWidth,
+            e.Graphics.FillRectangle(Brushes.Black, 0, 0, GameState.ElementSize * Game.MapWidth,
                 GameState.ElementSize * Game.MapHeight);
 
             foreach (var a in gameState.Animations)
@@ -71,11 +71,25 @@ namespace Digger
 
         private void TimerTick(object sender, EventArgs args)
         {
+            var portal = Game.GetPosition("Digger.Exit").FirstOrDefault();
+            var player = Game.GetPosition("Digger.Player").FirstOrDefault();
+            if (player.X + 1 == portal.X && player.Y == portal.Y ||
+                player.X + 1 == portal.X && player.Y +1 == portal.Y ||
+                player.X + 1 == portal.X && player.Y -1 == portal.Y ||
+                player.X - 1 == portal.X && player.Y == portal.Y ||
+                player.X - 1 == portal.X && player.Y + 1 == portal.Y ||
+                player.X - 1 == portal.X && player.Y - 1 == portal.Y)
+            {
+                Program.NextMap();
+            }
             if (tickCount == 0) gameState.BeginAct();
             foreach (var e in gameState.Animations)
                 e.Location = new Point(e.Location.X + 4 * e.Command.DeltaX, e.Location.Y + 4 * e.Command.DeltaY);
-            if (tickCount == 7) //7
+            if (tickCount == 7)
+            {
+                //7
                 gameState.EndAct();
+            }
             tickCount++;
             if (tickCount == 8) tickCount = 0; // 8
             Invalidate();

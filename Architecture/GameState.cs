@@ -7,6 +7,7 @@ namespace Digger
 {
     public class GameState
     {
+        bool Stop = false;
         public int Count;
         public const int ElementSize = 45;
         public List<CreatureAnimation> Animations = new List<CreatureAnimation>();
@@ -53,15 +54,15 @@ namespace Digger
                     if (x + command.DeltaX < 0 || x + command.DeltaX >= Game.MapWidth || y + command.DeltaY < 0 ||
                     y + command.DeltaY >= Game.MapHeight)
                         throw new Exception($"The object {creature.GetType()} falls out of the game field");
-                   
-                        Animations.Add(
-                            new CreatureAnimation
-                            {
-                                Command = command,
-                                Creature = creature,
-                                Location = new Point(x * ElementSize, y * ElementSize),
-                                TargetLogicalLocation = new Point(x + command.DeltaX, y + command.DeltaY)
-                            });
+
+                    Animations.Add(
+                        new CreatureAnimation
+                        {
+                            Command = command,
+                            Creature = creature,
+                            Location = new Point(x * ElementSize, y * ElementSize),
+                            TargetLogicalLocation = new Point(x + command.DeltaX, y + command.DeltaY)
+                        });
                 }
 
             Animations = Animations.OrderByDescending(z => z.Creature.GetDrawingPriority()).ToList();
@@ -69,12 +70,13 @@ namespace Digger
 
         public void EndAct()
         {
-            
             var creaturesPerLocation = GetCandidatesPerLocation();
 
             for (var x = 0; x < Game.MapWidth; x++)
                 for (var y = 0; y < Game.MapHeight; y++)
+                {
                     Game.Map[x, y] = SelectWinnerCandidatePerLocation(creaturesPerLocation, x, y);
+                }
         }
 
         private static ICreature SelectWinnerCandidatePerLocation(List<ICreature>[,] creatures, int x, int y)

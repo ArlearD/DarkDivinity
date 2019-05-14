@@ -21,14 +21,14 @@ namespace Digger
             Map = CreatureMapCreator.CreateMap(map);
         }
 
-        public static List<Point> GetPosition(ICreature cr)
+        public static List<Point> GetPosition(string cr)
         {
             List<Point> list = new List<Point>();
             for (int i = 0; i < MapWidth; i++)
             {
                 for (int k = 0; k < MapHeight; k++)
                 {
-                    if (Map[i,k] != null && Map[i,k].ToString() == cr.ToString())
+                    if (Map[i,k] != null && Map[i,k].ToString() == cr)
                     {
                         list.Add(new Point(i, k));
                     }
