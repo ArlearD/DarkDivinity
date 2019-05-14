@@ -8,7 +8,7 @@ namespace Digger
     public class GameState
     {
         public int Count;
-        public const int ElementSize = 32;
+        public const int ElementSize = 45;
         public List<CreatureAnimation> Animations = new List<CreatureAnimation>();
 
         public void BeginAct()
@@ -40,7 +40,7 @@ namespace Digger
                 for (var y = 0; y < Game.MapHeight; y++)
                 {
                     var creature = Game.Map[x, y];
-                    if (creature is Slash && (creature as Slash).Count == 4)
+                    if (creature is Slash && (creature as Slash).Count == 6)
                         continue;
 
 

@@ -32,41 +32,60 @@ namespace Digger
         private int RunFrame = 1;
         private bool RightState = false;
         private bool Falling = false;
-        private bool Rush = false;
+        private int SlashAttackFrames = 0;
+        private int HeavyAttackFrames = 0;
+        private int JumpFrames = 0;
         private int Count;
+        private int Count1;
+        private int JumpKd;
 
         public int LastxMove = 0;
         public CreatureCommand Act(int x, int y)
         {
+            JumpKd++;
             Count++;
+            Count1++;
             int xvalue = 0;
             int yvalue = 0;
             var pos = Game.GetPosition(this).FirstOrDefault();
             switch (Game.KeyPressed)
             {
                 case System.Windows.Forms.Keys.C:
-                    
+                    RunState = false;
+                    if (Count <= 12)
+                    {
+                        break;
+                    }
+                    if (SlashAttackFrames != 0)
+                    {
+                        break;
+                    }
+                    SlashAttackFrames = 38;
                     if (RightState && pos.X + 1 < Game.MapWidth - 1 && Game.Map[pos.X + 1, pos.Y] == null && Count>12)
                     {
                         Count=0;
-                        Game.Map[pos.X + 1, pos.Y] = new Slash(RightState);
+                        Game.Map[pos.X, pos.Y] = new Slash(RightState);
                     }
                     else if (pos.X - 1 > 0 && !RightState && Game.Map[pos.X - 1, pos.Y] == null && Count>12)
                     {
                         Count = 0;
-                        Game.Map[pos.X - 1, pos.Y] = new Slash(RightState);
+                        Game.Map[pos.X, pos.Y] = new Slash(RightState);
                     }
                     break;
                 case System.Windows.Forms.Keys.X:
-                    
-                    if (RightState && pos.X + 1 < Game.MapWidth - 1 && Game.Map[pos.X + 1, pos.Y] == null && Count > 3)
+                    if (HeavyAttackFrames != 0)
                     {
-                        Count = 0;
+                        break;
+                    }
+                    HeavyAttackFrames = 50;
+                    if (RightState && pos.X + 1 < Game.MapWidth - 1 && Game.Map[pos.X + 1, pos.Y] == null && Count1 > 3)
+                    {
+                        Count1 = 0;
                         Game.Map[pos.X + 1, pos.Y] = new Attack(RightState);
                     }
-                    else if (pos.X - 1 > 0 && !RightState && Game.Map[pos.X - 1, pos.Y] == null && Count > 3)
+                    else if (pos.X - 1 > 0 && !RightState && Game.Map[pos.X - 1, pos.Y] == null && Count1 > 3)
                     {
-                        Count = 0;
+                        Count1 = 0;
                         Game.Map[pos.X - 1, pos.Y] = new Attack(RightState);
                     }
                     break;
@@ -84,28 +103,36 @@ namespace Digger
                     break;
                 case System.Windows.Forms.Keys.Up:
                     RunState = false;
-                    for (int i = 1; i <= 2; i++)
+                    if (JumpKd > 1)
                     {
-                        if (y - i >= 0 &&
-                            Game.Map[x, y + 1] != null
-                            && Game.Map[x, y + 1].ToString() == "Digger.Terrain"
-                            && Game.Map[x, y - i] == null)
+                        JumpKd = 0;
+                        for (int i = 1; i <= 2; i++)
                         {
-                            if (LastxMove != 0)
+                            if (y - i >= 0 &&
+                                Game.Map[x, y + 1] != null
+                                && Game.Map[x, y + 1].ToString() == "Digger.Terrain"
+                                && Game.Map[x, y - i] == null)
                             {
-                                xvalue = LastxMove;
-                                yvalue = -i;
+                                JumpFrames = 13;
+                                if (LastxMove != 0)
+                                {
+                                    if (Game.Map[x + LastxMove, y - i] == null)
+                                    {
+                                        xvalue = LastxMove;
+                                    }
+                                    yvalue = -i;
+                                }
+                                else
+                                {
+                                    yvalue = -i;
+                                }
                             }
                             else
                             {
-                                yvalue = -i;
+                                break;
                             }
+                            Falling = true;
                         }
-                        else
-                        {
-                            break;
-                        }
-                        Falling = true;
                     }
                     break;
                 case System.Windows.Forms.Keys.Z:
@@ -123,7 +150,6 @@ namespace Digger
                                 }
                                 else
                                     xvalue = -i;
-                                Rush = true;
                             }
                         }
                         else
@@ -197,12 +223,7 @@ namespace Digger
 
         public bool DeadInConflict(ICreature conflictedObject)
         {
-            if (conflictedObject.GetImageFileName() == "Sack.png" ||
-                conflictedObject.GetImageFileName() == "Monster.png")
-            {
-                return true;
-            }
-            return false;
+            return true;
         }
 
         public int GetDrawingPriority()
@@ -217,22 +238,79 @@ namespace Digger
             {
                 Fix = "L";
             }
-            if (Rush)
+
+            if (JumpFrames > 0)
             {
-                Rush = false;
-                return "PlayerRush" + Fix + ".png";
+                JumpFrames--;
+                if (JumpFrames <= 6)
+                {
+                    return "PlayerJump" + Fix + "2.png";
+                }
+                if (JumpFrames <= 12)
+                {
+                    return "PlayerJump" + Fix + "1.png";
+                }
+            }
+
+            if (SlashAttackFrames > 0)
+            {
+                SlashAttackFrames--;
+                if (SlashAttackFrames <= 6)
+                {
+                    return "PlayerSlash" + Fix + "6.png";
+                }
+                if (SlashAttackFrames <= 12)
+                {
+                    return "PlayerSlash" + Fix + "5.png";
+                }
+                if (SlashAttackFrames <= 18)
+                {
+                    return "PlayerSlash" + Fix + "4.png";
+                }
+                if (SlashAttackFrames <= 24)
+                {
+                    return "PlayerSlash" + Fix + "3.png";
+                }
+                if (SlashAttackFrames <= 30)
+                {
+                    return "PlayerSlash" + Fix + "2.png";
+                }
+                if (SlashAttackFrames <= 36)
+                {
+                    return "PlayerSlash" + Fix + "1.png";
+                }
+            }
+
+            if (HeavyAttackFrames > 0)
+            {
+                HeavyAttackFrames--;
+                if (HeavyAttackFrames <= 12)
+                {
+                    return "PlayerHeavy" + Fix + "4.png";
+                }
+                if (HeavyAttackFrames <= 24)
+                {
+                    return "PlayerHeavy" + Fix + "3.png";
+                }
+                if (HeavyAttackFrames <= 36)
+                {
+                    return "PlayerHeavy" + Fix + "2.png";
+                }
+                if (HeavyAttackFrames <= 48)
+                {
+                    return "PlayerHeavy" + Fix + "1.png";
+                }
             }
 
             if (RunState && !Falling)
             {
-                var currentFrame = RunFrame;
-                if (RunFrame >= 8) RunFrame = 1;
+                if (RunFrame >= 56) RunFrame = 0;
                 RunFrame++;
-                return "PlayerRun" + Fix + currentFrame + ".png";
+                return "PlayerRun" + Fix + ((RunFrame / 8) + 1) + ".png";
             }
             if (Falling)
             {
-                return "PlayerJump" + Fix + 3 + ".png";
+                return "PlayerJump" + Fix + "3.png";
             }
 
             if (!Falling)
@@ -243,18 +321,23 @@ namespace Digger
                 }
                 StayFrame++;
 
-                if (StayFrame < 33)
+                if (StayFrame < 25)
                 {
-                    return "Player" + Fix + "1.png";
+                    return "PlayerStay" + Fix + "1.png";
                 }
-                else if (StayFrame < 66)
+                else if (StayFrame < 50)
                 {
-                    return "Player" + Fix + "2.png";
+                    return "PlayerStay" + Fix + "2.png";
+                }
+                else if (StayFrame < 75)
+                {
+                    return "PlayerStay" + Fix + "3.png";
                 }
                 else
                 {
-                    return "Player" + Fix + "3.png";
+                    return "PlayerStay" + Fix + "4.png";
                 }
+
             }
             return "";
         }
@@ -383,6 +466,13 @@ namespace Digger
                                 moveY = 0;
                             else moveY = -1;
                     }
+            if (Game.Map[x + moveX, y] !=null && (Game.Map[x + moveX, y].GetImageFileName() == "Slash.png" 
+                || Game.Map[x + moveX, y].GetImageFileName() == "SlashL.png" ||
+                Game.Map[x + moveX, y].GetImageFileName() == "Attack.png" ||
+                    Game.Map[x + moveX, y].GetImageFileName() == "AttackL.png"))
+            {
+                moveX = 0;
+            }
             return new CreatureCommand
             {
                 DeltaX = moveX,
@@ -392,12 +482,11 @@ namespace Digger
 
         public bool DeadInConflict(ICreature conflictedObject)
         {
-            if (conflictedObject.GetImageFileName() == "Monster.png"
-                || conflictedObject.GetImageFileName() == "Sack.png")
+            if (conflictedObject.ToString() == "Digger.Player")
             {
-                return true;
+                return false;
             }
-            else return false;
+            else return true;
         }
 
         public int GetDrawingPriority()
@@ -450,7 +539,12 @@ namespace Digger
 
         public string GetImageFileName()
         {
-            return "Sack.png";
+            if (RightState)
+            {
+                return "Slash.png";
+            }
+            else
+            return "SlashL.png";
         }
     }
 
@@ -466,9 +560,16 @@ namespace Digger
         public CreatureCommand Act(int x, int y)
         {
             Count++;
+            int xMove;
+
+            if (RightState)
+                xMove = 1;
+            else
+                xMove = -1;
+
             return new CreatureCommand
             {
-                DeltaX = 0,
+                DeltaX = xMove,
                 DeltaY = 0
             };
         }
@@ -486,7 +587,47 @@ namespace Digger
 
         public string GetImageFileName()
         {
-            return "Sack.png";
+            if (RightState)
+            {
+                return "Attack.png";
+            }
+            else
+            return "AttackL.png";
+        }
+    }
+
+    public class Exit : ICreature
+    {
+        public CreatureCommand Act(int x, int y)
+        {
+            return new CreatureCommand()
+            {
+                DeltaX = 0,
+                DeltaY = 0
+            };
+        }
+
+        public bool DeadInConflict(ICreature conflictedObject)
+        {
+            if (conflictedObject.ToString() == "Digger.Player")
+            {
+                Program.NextMap();
+                return false;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public int GetDrawingPriority()
+        {
+            return 5;
+        }
+
+        public string GetImageFileName()
+        {
+            return "Exit1.png";
         }
     }
 }
