@@ -164,10 +164,8 @@ namespace Digger
                     LastxMove = 0;
                     break;
             }
-            if (y + 1 < Game.MapHeight && Game.Map[x, y + 1] == null || Game.Map[x, y + 1].ToString() == "Digger.Sack")
-            {
+            if (!(y + 1 < Game.MapHeight && Game.Map[x, y + 1] != null && Game.Map[x, y + 1].ToString() == "Digger.Terrain"))
                 yvalue = 1;
-            }
 
             if (xvalue != 0)
             {
@@ -440,6 +438,8 @@ namespace Digger
 
     public class Monster : ICreature
     {
+        private int MoveFrames = 0;
+        private bool RightState = false;
         public CreatureCommand Act(int x, int y)
         {
             int moveX = 0;
@@ -473,6 +473,11 @@ namespace Digger
             {
                 moveX = 0;
             }
+            if (moveX > 0)
+            {
+                RightState = true;
+            }
+            else RightState = false;
             return new CreatureCommand
             {
                 DeltaX = moveX,
@@ -496,7 +501,34 @@ namespace Digger
 
         public string GetImageFileName()
         {
-            return "Monster.png";
+            var Fix = "";
+            if (!RightState)
+            {
+                Fix = "L";
+            }
+            if (MoveFrames >= 74)
+            {
+                MoveFrames = 0;
+            }
+
+            MoveFrames++;
+            if (MoveFrames <= 0)
+            {
+                return "Monster" + Fix + "1.png";
+            }
+            if (MoveFrames <= 25)
+            {
+                return "Monster" + Fix + "2.png";
+            }
+            if (MoveFrames <= 50)
+            {
+                return "Monster" + Fix + "3.png";
+            }
+            if (MoveFrames <= 75)
+            {
+                return "Monster" + Fix + "4.png";
+            }
+            return "";
         }
     }
     public class Slash : ICreature

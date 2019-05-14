@@ -146,3 +146,12 @@ C:\Users\Granter\Documents\GitHub\CooperativeTaxiTravels\bin\Debug\Images\SlashL
 C:\Users\Granter\Documents\GitHub\CooperativeTaxiTravels\bin\Debug\Images\Attack.png
 C:\Users\Granter\Documents\GitHub\CooperativeTaxiTravels\bin\Debug\Images\AttackL.png
 C:\Users\Granter\Documents\GitHub\CooperativeTaxiTravels\bin\Debug\Images\Exit1.png
+C:\Users\Granter\Documents\GitHub\CooperativeTaxiTravels\bin\Debug\Images\BackGround.png
+C:\Users\Granter\Documents\GitHub\CooperativeTaxiTravels\bin\Debug\Images\Monster1.png
+C:\Users\Granter\Documents\GitHub\CooperativeTaxiTravels\bin\Debug\Images\Monster2.png
+C:\Users\Granter\Documents\GitHub\CooperativeTaxiTravels\bin\Debug\Images\Monster3.png
+C:\Users\Granter\Documents\GitHub\CooperativeTaxiTravels\bin\Debug\Images\Monster4.png
+C:\Users\Granter\Documents\GitHub\CooperativeTaxiTravels\bin\Debug\Images\MonsterL1.png
+C:\Users\Granter\Documents\GitHub\CooperativeTaxiTravels\bin\Debug\Images\MonsterL2.png
+C:\Users\Granter\Documents\GitHub\CooperativeTaxiTravels\bin\Debug\Images\MonsterL3.png
+C:\Users\Granter\Documents\GitHub\CooperativeTaxiTravels\bin\Debug\Images\MonsterL4.png

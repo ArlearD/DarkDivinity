@@ -57,8 +57,7 @@ namespace Digger
         protected override void OnPaint(PaintEventArgs e)
         {
             e.Graphics.TranslateTransform(0, GameState.ElementSize);
-            e.Graphics.FillRectangle(
-                Brushes.Black, 0, 0, GameState.ElementSize * Game.MapWidth,
+            e.Graphics.FillRectangle(Brushes.Black,0, 0, GameState.ElementSize * Game.MapWidth,
                 GameState.ElementSize * Game.MapHeight);
 
             foreach (var a in gameState.Animations)
