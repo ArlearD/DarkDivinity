@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using System.Threading;
 
 namespace DarkDivinity
 {
@@ -23,38 +22,62 @@ namespace DarkDivinity
 
         public string GetImageFileName()
         {
-            return "Terrain.png";
+            return "Terrain4.png";
         }
     }
 
     public class Player : ICreature
     {
         private bool RunState = false;
-        private int StayFrame = 0;
-        private int RunFrame = 1;
         private bool RightState = false;
         private bool Falling = false;
+        private bool Sitting = false;
         private int SlashAttackFrames = 0;
         private int HeavyAttackFrames = 0;
+        private int HeavenAttackFrames = 0;
+        private int StayFrame = 0;
+        private int RunFrame = 0;
+        private int SittingFrame = 0;
         private int JumpFrames = 0;
-        private int Count;
-        private int Count1;
-        private int JumpKd;
+        private int SlachCooldown;
+        private int HeavyCooldown;
+        private int HeavenCooldown;
 
         public int LastxMove = 0;
         public CreatureCommand Act(int x, int y)
         {
-            JumpKd++;
-            Count++;
-            Count1++;
+            SlachCooldown++;
+            HeavyCooldown++;
+            HeavenCooldown++;
             int xvalue = 0;
             int yvalue = 0;
             var pos = Game.GetPosition("DarkDivinity.Player").FirstOrDefault();
             switch (Game.KeyPressed)
             {
-                case System.Windows.Forms.Keys.C:
+                case System.Windows.Forms.Keys.V:
+                    Sitting = false;
                     RunState = false;
-                    if (Count <= 12)
+                    if (HeavenCooldown <= 8)
+                    {
+                        break;
+                    }
+                    if (HeavyAttackFrames != 0)
+                    {
+                        break;
+                    }
+                    HeavenAttackFrames = 82;
+                    if (pos.X + 1 < Game.MapWidth - 1 && Game.Map[pos.X, pos.Y - 1] == null && HeavenCooldown > 8)
+                    {
+                        HeavenCooldown = 0;
+                        Game.Map[pos.X, pos.Y] = new Heaven();
+                    }
+
+
+                    break;
+                case System.Windows.Forms.Keys.C:
+                    Sitting = false;
+                    RunState = false;
+                    if (SlachCooldown <= 8)
                     {
                         break;
                     }
@@ -62,102 +85,212 @@ namespace DarkDivinity
                     {
                         break;
                     }
-                    SlashAttackFrames = 38;
-                    if (RightState && pos.X + 1 < Game.MapWidth - 1 && Game.Map[pos.X + 1, pos.Y] == null && Count > 12)
+                    SlashAttackFrames = 61;
+                    if (RightState && pos.X + 1 < Game.MapWidth - 1 && Game.Map[pos.X + 1, pos.Y] == null && SlachCooldown > 8)
                     {
-                        Count = 0;
+                        SlachCooldown = 0;
                         Game.Map[pos.X, pos.Y] = new Slash(RightState);
                     }
-                    else if (pos.X - 1 > 0 && !RightState && Game.Map[pos.X - 1, pos.Y] == null && Count > 12)
+                    else if (pos.X - 1 > 0 && !RightState && Game.Map[pos.X - 1, pos.Y] == null && SlachCooldown > 8)
                     {
-                        Count = 0;
+                        SlachCooldown = 0;
                         Game.Map[pos.X, pos.Y] = new Slash(RightState);
                     }
                     break;
+
                 case System.Windows.Forms.Keys.X:
+                    Sitting = false;
                     if (HeavyAttackFrames != 0)
                     {
                         break;
                     }
                     HeavyAttackFrames = 50;
-                    if (RightState && pos.X + 1 < Game.MapWidth - 1 && Game.Map[pos.X + 1, pos.Y] == null && Count1 > 3)
+                    if (RightState && pos.X + 1 < Game.MapWidth - 1 && Game.Map[pos.X + 1, pos.Y] == null && HeavyCooldown > 3)
                     {
-                        Count1 = 0;
+                        HeavyCooldown = 0;
                         Game.Map[pos.X + 1, pos.Y] = new Attack(RightState);
                     }
-                    else if (pos.X - 1 > 0 && !RightState && Game.Map[pos.X - 1, pos.Y] == null && Count1 > 3)
+                    else if (pos.X - 1 > 0 && !RightState && Game.Map[pos.X - 1, pos.Y] == null && HeavyCooldown > 3)
                     {
-                        Count1 = 0;
+                        HeavyCooldown = 0;
                         Game.Map[pos.X - 1, pos.Y] = new Attack(RightState);
                     }
                     break;
+
                 case System.Windows.Forms.Keys.Left:
-                    if (x - 1 >= 0)
-                        xvalue = -1;
-                    LastxMove = xvalue;
-                    RightState = false;
+                    if (!Sitting)
+                    {
+                        if (x - 1 >= 0)
+                            xvalue = -1;
+                        LastxMove = xvalue;
+                        RightState = false;
+                    }
+                    else
+                    {
+                        RightState = false;
+                        Sitting = false;
+                    }
                     break;
+
                 case System.Windows.Forms.Keys.Right:
-                    if (x + 1 < Game.MapWidth)
-                        xvalue = 1;
-                    LastxMove = xvalue;
-                    RightState = true;
+                    if (!Sitting)
+                    {
+                        if (x + 1 < Game.MapWidth)
+                            xvalue = 1;
+                        LastxMove = xvalue;
+                        RightState = true;
+                        Sitting = false;
+                    }
+                    else
+                    {
+                        RightState = true;
+                        Sitting = false;
+                    }
                     break;
+
+                case System.Windows.Forms.Keys.Z:
+                    RunState = false;
+                    break;
+
+                case System.Windows.Forms.Keys.Down:
+                    RunState = false;
+                    if (!Falling) Sitting = true;
+                    break;
+
                 case System.Windows.Forms.Keys.Up:
                     RunState = false;
-                    if (JumpKd > 1)
+                    if (Sitting)
                     {
-                        JumpKd = 0;
-                        for (int i = 1; i <= 2; i++)
+                        Sitting = false;
+                        RunState = false;
+                        if (!Falling)
                         {
-                            if (y - i >= 0 &&
-                                Game.Map[x, y + 1] != null
-                                && Game.Map[x, y + 1].ToString() == "DarkDivinity.Terrain"
-                                && Game.Map[x, y - i] == null)
+                            for (int t = 0; t <= 6; t++)
                             {
-                                JumpFrames = 13;
-                                if (LastxMove != 0)
+                                if (Game.Map[x, y - t] == null)
                                 {
-                                    if (Game.Map[x + LastxMove, y - i] == null)
+                                    yvalue = -t;
+                                }
+                            }
+                            JumpFrames = 13;
+                            Falling = true;
+                            return new CreatureCommand
+                            {
+                                DeltaX = 0,
+                                DeltaY = yvalue
+                            };
+                        }
+                        break;
+                    }
+                    if (!Falling)
+                    {
+                        for (int i = 1; i <= 3; i++)
+                        {
+                            if (!RightState)
+                            {
+                                if (Game.Map[x - 1, y] != null)
+                                {
+                                    for (int t = 0; t <= 3; t++)
                                     {
-                                        xvalue = LastxMove;
+                                        if (Game.Map[x, y - t] == null)
+                                        {
+                                            yvalue = -t;
+                                        }
                                     }
+                                    JumpFrames = 13;
+                                    Falling = true;
+                                    return new CreatureCommand
+                                    {
+                                        DeltaX = 0,
+                                        DeltaY = yvalue
+                                    };
+                                }
+                                if (Game.Map[x - i, y - i] == null)
+                                {
+                                    if (Game.Map[x - i - 1, y - i] != null)
+                                    {
+                                        xvalue = -i;
+                                        for (int t = 0; t + i <= 3; t++)
+                                        {
+                                            if (Game.Map[x - i, y - i - t] == null)
+                                            {
+                                                yvalue = -t - i;
+                                            }
+                                        }
+                                        JumpFrames = 13;
+                                        Falling = true;
+                                        return new CreatureCommand
+                                        {
+                                            DeltaX = xvalue,
+                                            DeltaY = yvalue
+                                        };
+                                    }
+                                    xvalue = -i;
                                     yvalue = -i;
                                 }
                                 else
                                 {
-                                    yvalue = -i;
+                                    return new CreatureCommand
+                                    {
+                                        DeltaX = 0,
+                                        DeltaY = 0
+                                    };
                                 }
                             }
                             else
                             {
-                                break;
-                            }
-                            Falling = true;
-                        }
-                    }
-                    break;
-                case System.Windows.Forms.Keys.Z:
-                    for (int i = 1; i <= 2; i++)
-                    {
-                        if (x - i >= 0 && x + i <= Game.MapWidth &&
-                            Game.Map[x + i, y] == null
-                            && Game.Map[x - i, y] == null)
-                        {
-                            if (LastxMove != 0)
-                            {
-                                if (RightState)
+                                if (Game.Map[x + 1, y] != null)
                                 {
-                                    xvalue = i;
+                                    for (int t = 0; t <= 3; t++)
+                                    {
+                                        if (Game.Map[x, y - t] == null)
+                                        {
+                                            yvalue = -t;
+                                        }
+                                    }
+                                    JumpFrames = 13;
+                                    Falling = true;
+                                    return new CreatureCommand
+                                    {
+                                        DeltaX = 0,
+                                        DeltaY = yvalue
+                                    };
+                                }
+                                if (Game.Map[x + i, y - i] == null)
+                                {
+                                    if (Game.Map[x + i + 1, y - i] != null)
+                                    {
+                                        xvalue = +i;
+                                        for (int t = 0; t + i <= 3; t++)
+                                        {
+                                            if (Game.Map[x + i, y - i - t] == null)
+                                            {
+                                                yvalue = -t - i;
+                                            }
+                                        }
+                                        JumpFrames = 13;
+                                        Falling = true;
+                                        return new CreatureCommand
+                                        {
+                                            DeltaX = xvalue,
+                                            DeltaY = yvalue
+                                        };
+                                    }
+                                    xvalue = +i;
+                                    yvalue = -i;
                                 }
                                 else
-                                    xvalue = -i;
+                                {
+                                    return new CreatureCommand
+                                    {
+                                        DeltaX = 0,
+                                        DeltaY = 0
+                                    };
+                                }
                             }
                         }
-                        else
-                        {
-                            break;
-                        }
+                        JumpFrames = 13;
+                        Falling = true;
                     }
                     break;
                 default:
@@ -239,6 +372,13 @@ namespace DarkDivinity
                 Fix = "L";
             }
 
+            if (Sitting)
+            {
+                if (SittingFrame >= 90) SittingFrame = 0;
+                SittingFrame++;
+                return "PlayerSitting" + Fix + ((SittingFrame / 30) + 1) + ".png";
+            }
+
             if (JumpFrames > 0)
             {
                 JumpFrames--;
@@ -252,30 +392,51 @@ namespace DarkDivinity
                 }
             }
 
+            if (HeavenAttackFrames > 0)
+            {
+                HeavenAttackFrames--;
+                if (HeavenAttackFrames <= 20)
+                {
+                    return "PlayerHeaven" + Fix + "4.png";
+                }
+                if (HeavenAttackFrames <= 50)
+                {
+                    return "PlayerHeaven" + Fix + "3.png";
+                }
+                if (HeavenAttackFrames <= 70)
+                {
+                    return "PlayerHeaven" + Fix + "2.png";
+                }
+                if (HeavenAttackFrames <= 80)
+                {
+                    return "PlayerHeaven" + Fix + "1.png";
+                }
+            }
+
             if (SlashAttackFrames > 0)
             {
                 SlashAttackFrames--;
-                if (SlashAttackFrames <= 6)
+                if (SlashAttackFrames <= 10)
                 {
                     return "PlayerSlash" + Fix + "6.png";
                 }
-                if (SlashAttackFrames <= 12)
+                if (SlashAttackFrames <= 20)
                 {
                     return "PlayerSlash" + Fix + "5.png";
                 }
-                if (SlashAttackFrames <= 18)
+                if (SlashAttackFrames <= 30)
                 {
                     return "PlayerSlash" + Fix + "4.png";
                 }
-                if (SlashAttackFrames <= 24)
+                if (SlashAttackFrames <= 40)
                 {
                     return "PlayerSlash" + Fix + "3.png";
                 }
-                if (SlashAttackFrames <= 30)
+                if (SlashAttackFrames <= 50)
                 {
                     return "PlayerSlash" + Fix + "2.png";
                 }
-                if (SlashAttackFrames <= 36)
+                if (SlashAttackFrames <= 60)
                 {
                     return "PlayerSlash" + Fix + "1.png";
                 }
@@ -308,6 +469,7 @@ namespace DarkDivinity
                 RunFrame++;
                 return "PlayerRun" + Fix + ((RunFrame / 8) + 1) + ".png";
             }
+
             if (Falling)
             {
                 return "PlayerJump" + Fix + "3.png";
@@ -407,10 +569,8 @@ namespace DarkDivinity
 
         public bool DeadInConflict(ICreature conflictedObject)
         {
-            if (conflictedObject.GetImageFileName() == "DarkDivinity.png" ||
-                conflictedObject.GetImageFileName() == "Monster.png")
+            if (conflictedObject.GetImageFileName().Remove(6) == "Player")
             {
-                Game.Scores += 10;
                 return true;
             }
             return false;
@@ -431,13 +591,14 @@ namespace DarkDivinity
     {
         private int MoveFrames = 0;
         private bool RightState = false;
+        private bool MoveSlower = true;
         public CreatureCommand Act(int x, int y)
         {
             int moveX = 0;
             int moveY = 0;
 
             var pos = Game.GetPosition("DarkDivinity.Player").FirstOrDefault();
-            if (Math.Abs(x - pos.X) >= 5 || Math.Abs(y - pos.Y) >= 5)
+            if (Math.Abs(x - pos.X) >= 6 || Math.Abs(y - pos.Y) >= 6)
                 return new CreatureCommand
                 {
                     DeltaX = 0,
@@ -466,23 +627,43 @@ namespace DarkDivinity
                                     moveY = 0;
                                 else moveY = -1;
                         }
-            if (Game.Map[x + moveX, y] != null && (Game.Map[x + moveX, y].GetImageFileName() == "Slash.png"
-                || Game.Map[x + moveX, y].GetImageFileName() == "SlashL.png" ||
-                Game.Map[x + moveX, y].GetImageFileName() == "Attack.png" ||
-                    Game.Map[x + moveX, y].GetImageFileName() == "AttackL.png"))
+            if (Game.Map[x + moveX, y + moveY] != null &&
+                (Game.Map[x + moveX, y + moveY].GetImageFileName().Remove(5) == "Slash"
+                || Game.Map[x + moveX, y + moveY].GetImageFileName().Remove(5) == "Attac"
+                || Game.Map[x + moveX, y + moveY].GetImageFileName().Remove(6) == "Heaven"))
             {
                 moveX = 0;
+                moveY = 0;
+            }
+            if (Game.Map[x + moveX, y + moveY] != null && (Game.Map[x + moveX, y + moveY].GetImageFileName().Remove(7) == "Terrain"
+                || Game.Map[x + moveX, y + moveY].GetImageFileName().Remove(5) == "Spike"))
+            {
+                moveX = 0;
+                moveY = 0;
             }
             if (moveX > 0)
             {
                 RightState = true;
             }
             else RightState = false;
-            return new CreatureCommand
+            if (MoveSlower)
             {
-                DeltaX = moveX,
-                DeltaY = moveY
-            };
+                MoveSlower = !MoveSlower;
+                return new CreatureCommand
+                {
+                    DeltaX = moveX,
+                    DeltaY = moveY
+                };
+            }
+            else
+            {
+                MoveSlower = !MoveSlower;
+                return new CreatureCommand
+                {
+                    DeltaX = 0,
+                    DeltaY = 0
+                };
+            }
         }
 
         public bool DeadInConflict(ICreature conflictedObject)
@@ -626,6 +807,37 @@ namespace DarkDivinity
             }
             else
                 return "AttackL.png";
+        }
+    }
+
+    public class Heaven : ICreature
+    {
+        public int Count;
+        public CreatureCommand Act(int x, int y)
+        {
+            Count++;
+
+            return new CreatureCommand
+            {
+                DeltaX = 0,
+                DeltaY = -1
+            };
+        }
+
+        public bool DeadInConflict(ICreature conflictedObject)
+        {
+            return true;
+        }
+
+
+        public int GetDrawingPriority()
+        {
+            return 2;
+        }
+
+        public string GetImageFileName()
+        {
+            return "Heaven.png";
         }
     }
 

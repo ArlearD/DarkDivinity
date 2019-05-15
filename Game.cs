@@ -9,8 +9,6 @@ namespace DarkDivinity
 
 
         public static ICreature[,] Map;
-        public static int Scores;
-        public static bool IsOver;
 
         public static Keys KeyPressed;
         public static int MapWidth => Map.GetLength(0);
@@ -19,13 +17,6 @@ namespace DarkDivinity
         public static void CreateMap(string map)
         {
             Map = CreatureMapCreator.CreateMap(map);
-        }
-        public static bool Check(int x, int y, int moveX, int moveY)
-        {
-            return Game.Map[x + moveX, y + moveY] != null &&
-                (Game.Map[x + moveX, y + moveY].GetImageFileName() == "Spike.png"
-                || Game.Map[x + moveX, y + moveY].GetImageFileName() == "Terrain.png"
-                || Game.Map[x + moveX, y + moveY].GetImageFileName() == "Monster.png");
         }
 
         public static List<Point> GetPosition(string cr)
@@ -42,6 +33,13 @@ namespace DarkDivinity
                 }
             }
             return list;
+        }
+        public static bool Check(int x, int y, int moveX, int moveY)
+        {
+            return Game.Map[x + moveX, y + moveY] != null &&
+                (Game.Map[x + moveX, y + moveY].GetImageFileName().Remove(5) == "Spike"
+                || Game.Map[x + moveX, y + moveY].GetImageFileName().Remove(7) == "Terrain"
+                || Game.Map[x + moveX, y + moveY].GetImageFileName().Remove(7) == "Monster");
         }
     }
 }

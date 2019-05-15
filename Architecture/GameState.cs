@@ -42,8 +42,8 @@ namespace DarkDivinity
                     var creature = Game.Map[x, y];
                     if (creature is Slash && (creature as Slash).Count == 6)
                         continue;
-
-
+                    if (creature is Heaven && (creature as Heaven).Count == 6)
+                        continue;
                     if (creature is Attack && (creature as Attack).Count == 1)
                         continue;
                     if (creature == null || creature.ToString() == "DarkDivinity.Player") continue;

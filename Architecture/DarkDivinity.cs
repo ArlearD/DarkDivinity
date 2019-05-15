@@ -15,20 +15,26 @@ namespace DarkDivinity
         private int tickCount;
 
 
+
         public DarkDivinityWindow(DirectoryInfo imagesDirectory = null)
         {
+            SetStyle(ControlStyles.OptimizedDoubleBuffer
+                | ControlStyles.AllPaintingInWmPaint
+                | ControlStyles.UserPaint, true);
+            UpdateStyles();
             gameState = new GameState();
             ClientSize = new Size(
                 GameState.ElementSize * Game.MapWidth,
-                GameState.ElementSize * Game.MapHeight + GameState.ElementSize);
-            FormBorderStyle = FormBorderStyle.FixedDialog;
+                GameState.ElementSize * Game.MapHeight);
             if (imagesDirectory == null)
                 imagesDirectory = new DirectoryInfo("Images");
             var files = imagesDirectory.GetFiles("*.png");
             foreach (var e in files)
                 bitmaps[e.Name] = (Bitmap)Image.FromFile(e.FullName);
-            var timer = new Timer();
-            timer.Interval = 15;//15
+            var timer = new Timer
+            {
+                Interval = 15//15
+            };
             timer.Tick += TimerTick;
             timer.Start();
         }
@@ -56,7 +62,6 @@ namespace DarkDivinity
 
         protected override void OnPaint(PaintEventArgs e)
         {
-            e.Graphics.TranslateTransform(0, GameState.ElementSize);
             e.Graphics.FillRectangle(Brushes.Black, 0, 0, GameState.ElementSize * Game.MapWidth,
                 GameState.ElementSize * Game.MapHeight);
 
@@ -66,7 +71,6 @@ namespace DarkDivinity
                 e.Graphics.DrawImage(bitmaps[a.Creature.GetImageFileName()], a.Location);
             }
             e.Graphics.ResetTransform();
-            e.Graphics.DrawString(Game.Scores.ToString(), new Font("Arial", 16), Brushes.Green, 0, 0);
         }
 
         private void TimerTick(object sender, EventArgs args)
@@ -87,12 +91,11 @@ namespace DarkDivinity
                 e.Location = new Point(e.Location.X + 4 * e.Command.DeltaX, e.Location.Y + 4 * e.Command.DeltaY);
             if (tickCount == 7)
             {
-                //7
                 gameState.EndAct();
             }
             tickCount++;
-            if (tickCount == 8) tickCount = 0; // 8
-            Invalidate();
+            if (tickCount == 8) tickCount = 0;
+            Refresh();
         }
     }
 }

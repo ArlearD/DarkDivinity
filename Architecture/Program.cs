@@ -14,6 +14,7 @@ namespace DarkDivinity
             var form = new DarkDivinityWindow();
             Application.Run(form);
         }
+
         public static void NextMap()
         {
            

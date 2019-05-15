@@ -25,6 +25,7 @@ T                           T
 T                           T
 T                           T
 T                           T
+T                           T
 T P                      E  T
 TTTTTTTTTTTTTTTTTTTTTTTTTTTTT";
 
@@ -34,6 +35,7 @@ TTTTT    TTT    TT     TTTTTT
 TTT      TT      T          T
 T     M                M    T
 T           M      M        T
+T                           T
 T                           T
 T                           T
 T                           T
@@ -59,7 +61,8 @@ T                           T
 T                           T
 T                           T
 T                           T
-T P            M         E  T
+T                           T
+T P         S  M         E  T
 TTTTTTTTTTTTTTTTTTTTTTTTTTTTT";
 
         public const string m3 = @"
@@ -71,6 +74,7 @@ T                         TTT
 T                 T        TT
 T                   M      TT
 T                   T       T
+T                           T
 T                     M     T
 T                     T     T
 T                         E T
@@ -87,6 +91,7 @@ T                          TT
 T                          TT
 T                          TT
 T                          TT
+T                           T
 T                          TT
 T                          TT
 T                           T
@@ -98,6 +103,7 @@ TTTTTTTTTTTTTTTTTTTTTTTTTTTTT";
 
         public const string m5 = @"
 TTTTTTTTTTTTTTTTTTTTTTTTTTTTT
+T                           T
 T                           T
 T                           T
 T                           T
@@ -117,6 +123,7 @@ TTTTTTTTTTTTTTTTTTTTTTTTTTTTT";
 TTTTTTTTTTTTTTTTTTTTTTTTTTTTT
 TTT                         T
 TT                          T
+T                           T
 T                           T
 T                           T
 T                           T
