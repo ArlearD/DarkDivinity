@@ -163,38 +163,91 @@ namespace DarkDivinity
                     {
                         Sitting = false;
                         RunState = false;
-                        if (!Falling)
+                        for (int t = 1; t <= 6; t++)
                         {
-                            for (int t = 0; t <= 6; t++)
+                            if (Game.Map[x, y - t] == null)
                             {
-                                if (Game.Map[x, y - t] == null)
-                                {
-                                    yvalue = -t;
-                                }
+                                yvalue = -t;
                             }
-                            JumpFrames = 13;
-                            Falling = true;
-                            return new CreatureCommand
+                            else
                             {
-                                DeltaX = 0,
-                                DeltaY = yvalue
-                            };
+                                JumpFrames = 13;
+                                Falling = true;
+                                return new CreatureCommand
+                                {
+                                    DeltaX = 0,
+                                    DeltaY = yvalue
+                                };
+                            }
                         }
-                        break;
+                        JumpFrames = 13;
+                        Falling = true;
+                        return new CreatureCommand
+                        {
+                            DeltaX = 0,
+                            DeltaY = yvalue
+                        };
                     }
                     if (!Falling)
                     {
+                        if (Game.Map[x, y - 1] != null)
+                        {
+                            return new CreatureCommand
+                            {
+                                DeltaX = 0,
+                                DeltaY = 0
+                            };
+                        }
                         for (int i = 1; i <= 3; i++)
                         {
                             if (!RightState)
                             {
-                                if (Game.Map[x - 1, y] != null)
+                                if (Game.Map[x - i, y - i] != null
+                                    && Game.Map[x - 1, y] == null
+                                    && Game.Map[x, y - 1] == null)
                                 {
-                                    for (int t = 0; t <= 3; t++)
+                                    for (int t = 1; t <= 3; t++)
                                     {
                                         if (Game.Map[x, y - t] == null)
                                         {
                                             yvalue = -t;
+                                        }
+                                        else
+                                        {
+                                            JumpFrames = 13;
+                                            Falling = true;
+                                            return new CreatureCommand
+                                            {
+                                                DeltaX = 0,
+                                                DeltaY = yvalue
+                                            };
+                                        }
+                                    }
+                                    JumpFrames = 13;
+                                    Falling = true;
+                                    return new CreatureCommand
+                                    {
+                                        DeltaX = 0,
+                                        DeltaY = yvalue
+                                    };
+                                }
+                                if (Game.Map[x - 1, y] != null)
+                                {
+                                    for (int t = 1; t <= 3; t++)
+                                    {
+                                        if (Game.Map[x, y - t] == null)
+                                        {
+                                            yvalue = -t;
+                                        }
+                                        else
+                                        {
+                                            JumpFrames = 13;
+                                            Falling = true;
+                                            return new CreatureCommand
+                                            {
+                                                DeltaX = 0,
+                                                DeltaY = yvalue
+                                            };
                                         }
                                     }
                                     JumpFrames = 13;
@@ -239,13 +292,52 @@ namespace DarkDivinity
                             }
                             else
                             {
-                                if (Game.Map[x + 1, y] != null)
+                                if (Game.Map[x + i, y - i] != null
+                                    && Game.Map[x + 1, y] == null
+                                    && Game.Map[x, y - 1] == null)
                                 {
-                                    for (int t = 0; t <= 3; t++)
+                                    for (int t = 1; t <= 3; t++)
                                     {
                                         if (Game.Map[x, y - t] == null)
                                         {
                                             yvalue = -t;
+                                        }
+                                        else
+                                        {
+                                            JumpFrames = 13;
+                                            Falling = true;
+                                            return new CreatureCommand
+                                            {
+                                                DeltaX = 0,
+                                                DeltaY = yvalue
+                                            };
+                                        }
+                                    }
+                                    JumpFrames = 13;
+                                    Falling = true;
+                                    return new CreatureCommand
+                                    {
+                                        DeltaX = 0,
+                                        DeltaY = yvalue
+                                    };
+                                }
+                                if (Game.Map[x + 1, y] != null)
+                                {
+                                    for (int t = 1; t <= 3; t++)
+                                    {
+                                        if (Game.Map[x, y - t] == null)
+                                        {
+                                            yvalue = -t;
+                                        }
+                                        else
+                                        {
+                                            JumpFrames = 13;
+                                            Falling = true;
+                                            return new CreatureCommand
+                                            {
+                                                DeltaX = 0,
+                                                DeltaY = yvalue
+                                            };
                                         }
                                     }
                                     JumpFrames = 13;

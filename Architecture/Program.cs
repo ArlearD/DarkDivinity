@@ -17,10 +17,10 @@ namespace DarkDivinity
 
         public static void NextMap()
         {
-           
+
             Game.CreateMap(Maps.maps[CurrentMap]);
             CurrentMap++;
-           
+
         }
     }
 }

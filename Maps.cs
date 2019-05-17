@@ -25,8 +25,8 @@ T                           T
 T                           T
 T                           T
 T                           T
-T                           T
-T P                      E  T
+TT TTT    TT   T            T
+T P    T       T         E  T
 TTTTTTTTTTTTTTTTTTTTTTTTTTTTT";
 
         public const string m1 = @"
