@@ -1,12 +1,10 @@
 C:\Users\Granter\Documents\GitHub\CooperativeTaxiTravels\bin\Debug\Images\Attack.png
 C:\Users\Granter\Documents\GitHub\CooperativeTaxiTravels\bin\Debug\Images\AttackL.png
-C:\Users\Granter\Documents\GitHub\CooperativeTaxiTravels\bin\Debug\Images\BackGround.png
 C:\Users\Granter\Documents\GitHub\CooperativeTaxiTravels\bin\Debug\Images\Exit1.png
 C:\Users\Granter\Documents\GitHub\CooperativeTaxiTravels\bin\Debug\Images\Exit2.png
 C:\Users\Granter\Documents\GitHub\CooperativeTaxiTravels\bin\Debug\Images\Exit3.png
 C:\Users\Granter\Documents\GitHub\CooperativeTaxiTravels\bin\Debug\Images\Exit4.png
 C:\Users\Granter\Documents\GitHub\CooperativeTaxiTravels\bin\Debug\Images\Exit5.png
-C:\Users\Granter\Documents\GitHub\CooperativeTaxiTravels\bin\Debug\Images\Monster.png
 C:\Users\Granter\Documents\GitHub\CooperativeTaxiTravels\bin\Debug\Images\Monster1.png
 C:\Users\Granter\Documents\GitHub\CooperativeTaxiTravels\bin\Debug\Images\Monster2.png
 C:\Users\Granter\Documents\GitHub\CooperativeTaxiTravels\bin\Debug\Images\Monster3.png
@@ -95,7 +93,6 @@ C:\Users\Granter\Documents\GitHub\CooperativeTaxiTravels\obj\Debug\DarkDivinity 
 C:\Users\Granter\Documents\GitHub\CooperativeTaxiTravels\obj\Debug\DarkDivinity 1.pdb
 C:\Users\Granter\Documents\GitHub\CooperativeTaxiTravels\obj\Debug\DarkDivinity.DarkDivinityWindow.resources
 C:\Users\Granter\Documents\GitHub\CooperativeTaxiTravels\bin\Debug\Images\PlayerSitting1.png
-C:\Users\Granter\Documents\GitHub\CooperativeTaxiTravels\bin\Debug\Images\BackGround1.png
 C:\Users\Granter\Documents\GitHub\CooperativeTaxiTravels\bin\Debug\Images\PlayerSitting2.png
 C:\Users\Granter\Documents\GitHub\CooperativeTaxiTravels\bin\Debug\Images\PlayerSitting3.png
 C:\Users\Granter\Documents\GitHub\CooperativeTaxiTravels\bin\Debug\Images\PlayerSitting4.png
@@ -103,3 +100,15 @@ C:\Users\Granter\Documents\GitHub\CooperativeTaxiTravels\bin\Debug\Images\Player
 C:\Users\Granter\Documents\GitHub\CooperativeTaxiTravels\bin\Debug\Images\PlayerSittingL2.png
 C:\Users\Granter\Documents\GitHub\CooperativeTaxiTravels\bin\Debug\Images\PlayerSittingL3.png
 C:\Users\Granter\Documents\GitHub\CooperativeTaxiTravels\bin\Debug\Images\PlayerSittingL4.png
+C:\Users\Granter\Documents\GitHub\CooperativeTaxiTravels\bin\Debug\Images\MonsterGhul1.png
+C:\Users\Granter\Documents\GitHub\CooperativeTaxiTravels\bin\Debug\Images\MonsterGhul2.png
+C:\Users\Granter\Documents\GitHub\CooperativeTaxiTravels\bin\Debug\Images\MonsterGhul3.png
+C:\Users\Granter\Documents\GitHub\CooperativeTaxiTravels\bin\Debug\Images\MonsterGhul4.png
+C:\Users\Granter\Documents\GitHub\CooperativeTaxiTravels\bin\Debug\Images\MonsterGhul5.png
+C:\Users\Granter\Documents\GitHub\CooperativeTaxiTravels\bin\Debug\Images\MonsterGhul6.png
+C:\Users\Granter\Documents\GitHub\CooperativeTaxiTravels\bin\Debug\Images\MonsterGhulL1.png
+C:\Users\Granter\Documents\GitHub\CooperativeTaxiTravels\bin\Debug\Images\MonsterGhulL2.png
+C:\Users\Granter\Documents\GitHub\CooperativeTaxiTravels\bin\Debug\Images\MonsterGhulL3.png
+C:\Users\Granter\Documents\GitHub\CooperativeTaxiTravels\bin\Debug\Images\MonsterGhulL4.png
+C:\Users\Granter\Documents\GitHub\CooperativeTaxiTravels\bin\Debug\Images\MonsterGhulL5.png
+C:\Users\Granter\Documents\GitHub\CooperativeTaxiTravels\bin\Debug\Images\MonsterGhulL6.png

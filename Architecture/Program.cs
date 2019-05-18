@@ -22,5 +22,12 @@ namespace DarkDivinity
             CurrentMap++;
 
         }
+
+        public static void SameMap()
+        {
+            CurrentMap--;
+            Game.CreateMap(Maps.maps[CurrentMap]);
+            CurrentMap++;
+        }
     }
 }

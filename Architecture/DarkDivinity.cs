@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Media;
 using System.Windows.Forms;
 
 namespace DarkDivinity
@@ -41,6 +42,8 @@ namespace DarkDivinity
 
         protected override void OnLoad(EventArgs e)
         {
+            SoundPlayer simpleSound = new SoundPlayer(@"C:\Users\Granter\Desktop\Новая папка (3)\Theme.wav");
+            simpleSound.Play();
             base.OnLoad(e);
             Text = "DarkDivinity";
             DoubleBuffered = true;
@@ -75,16 +78,24 @@ namespace DarkDivinity
 
         private void TimerTick(object sender, EventArgs args)
         {
+
             var portal = Game.GetPosition("DarkDivinity.Exit").FirstOrDefault();
-            var player = Game.GetPosition("DarkDivinity.Player").FirstOrDefault();
-            if (player.X + 1 == portal.X && player.Y == portal.Y ||
-                player.X + 1 == portal.X && player.Y +1 == portal.Y ||
-                player.X + 1 == portal.X && player.Y -1 == portal.Y ||
-                player.X - 1 == portal.X && player.Y == portal.Y ||
-                player.X - 1 == portal.X && player.Y + 1 == portal.Y ||
-                player.X - 1 == portal.X && player.Y - 1 == portal.Y)
+            try
             {
-                Program.NextMap();
+                var player = Game.GetPosition("DarkDivinity.Player").First();
+                if (player.X + 1 == portal.X && player.Y == portal.Y ||
+                    player.X + 1 == portal.X && player.Y + 1 == portal.Y ||
+                    player.X + 1 == portal.X && player.Y - 1 == portal.Y ||
+                    player.X - 1 == portal.X && player.Y == portal.Y ||
+                    player.X - 1 == portal.X && player.Y + 1 == portal.Y ||
+                    player.X - 1 == portal.X && player.Y - 1 == portal.Y)
+                {
+                    Program.NextMap();
+                }
+            }
+            catch
+            {
+                Program.SameMap();
             }
             if (tickCount == 0) gameState.BeginAct();
             foreach (var e in gameState.Animations)

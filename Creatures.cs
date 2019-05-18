@@ -26,6 +26,29 @@ namespace DarkDivinity
         }
     }
 
+    public class TerrainBroken : ICreature
+    {
+        public CreatureCommand Act(int x, int y)
+        {
+            return new CreatureCommand();
+        }
+
+        public bool DeadInConflict(ICreature conflictedObject)
+        {
+            return true;
+        }
+
+        public int GetDrawingPriority()
+        {
+            return 3;
+        }
+
+        public string GetImageFileName()
+        {
+            return "Terrain3.png";
+        }
+    }
+
     public class Player : ICreature
     {
         private bool RunState = false;
@@ -678,7 +701,6 @@ namespace DarkDivinity
             return "Gold.png";
         }
     }
-
     public class Monster : ICreature
     {
         private int MoveFrames = 0;
@@ -804,7 +826,6 @@ namespace DarkDivinity
             return "";
         }
     }
-
     public class Slash : ICreature
     {
         private bool RightState;
@@ -930,6 +951,140 @@ namespace DarkDivinity
         public string GetImageFileName()
         {
             return "Heaven.png";
+        }
+    }
+
+    public class MonsterGhul : ICreature
+    {
+        private int MoveFrames = 0;
+        private bool RightState = false;
+        private bool MoveSlower = true;
+        public CreatureCommand Act(int x, int y)
+        {
+            int moveX = 0;
+            int moveY = 0;
+
+            var pos = Game.GetPosition("DarkDivinity.Player").FirstOrDefault();
+            if (Math.Abs(x - pos.X) >= 6 || Math.Abs(y - pos.Y) >= 6)
+                return new CreatureCommand
+                {
+                    DeltaX = 0,
+                    DeltaY = 0
+                };
+            else
+                for (int xOfPlayer = 0; xOfPlayer < Game.MapWidth; xOfPlayer++)
+                    for (int yOfPlayer = 0; yOfPlayer < Game.MapHeight; yOfPlayer++)
+                        if (Game.Map[xOfPlayer, yOfPlayer] != null &&
+                            Game.Map[xOfPlayer, yOfPlayer].ToString() == "DarkDivinity.Player")
+                        {
+                            if (xOfPlayer - x > 0)
+                                if (Game.Check(x, y, 1, 0))
+                                    moveX = 0;
+                                else moveX = 1;
+                            if (xOfPlayer - x < 0)
+                                if (Game.Check(x, y, -1, 0))
+                                    moveX = 0;
+                                else moveX = -1;
+                            if (yOfPlayer - y > 0)
+                                if (Game.Check(x, y, 0, 1))
+                                    moveY = 0;
+                                else moveY = 1;
+                            if (yOfPlayer - y < 0)
+                                if (Game.Check(x, y, 0, -1))
+                                    moveY = 0;
+                                else moveY = -1;
+                        }
+            if (Game.Map[x + moveX, y + moveY] != null &&
+                (Game.Map[x + moveX, y + moveY].GetImageFileName().Remove(5) == "Slash"
+                || Game.Map[x + moveX, y + moveY].GetImageFileName().Remove(5) == "Attac"
+                || Game.Map[x + moveX, y + moveY].GetImageFileName().Remove(6) == "Heaven"))
+            {
+                moveX = 0;
+                moveY = 0;
+            }
+            if (Game.Map[x + moveX, y + moveY] != null && (Game.Map[x + moveX, y + moveY].GetImageFileName().Remove(7) == "Terrain"
+                || Game.Map[x + moveX, y + moveY].GetImageFileName().Remove(5) == "Spike"))
+            {
+                moveX = 0;
+                moveY = 0;
+            }
+            if (moveX > 0)
+            {
+                RightState = true;
+            }
+            else RightState = false;
+            if (MoveSlower)
+            {
+                MoveSlower = !MoveSlower;
+                return new CreatureCommand
+                {
+                    DeltaX = moveX,
+                    DeltaY = moveY
+                };
+            }
+            else
+            {
+                MoveSlower = !MoveSlower;
+                return new CreatureCommand
+                {
+                    DeltaX = 0,
+                    DeltaY = 0
+                };
+            }
+        }
+
+        public bool DeadInConflict(ICreature conflictedObject)
+        {
+            if (conflictedObject.ToString() == "DarkDivinity.Player")
+            {
+                return false;
+            }
+            else return true;
+        }
+
+        public int GetDrawingPriority()
+        {
+            return 1;
+        }
+
+        public string GetImageFileName()
+        {
+            var Fix = "";
+            if (!RightState)
+            {
+                Fix = "L";
+            }
+            if (MoveFrames >= 100)
+            {
+                MoveFrames = 0;
+            }
+
+            MoveFrames++;
+            if (MoveFrames <= 0)
+            {
+                return "MonsterGhul" + Fix + "1.png";
+            }
+            if (MoveFrames <= 20)
+            {
+                return "MonsterGhul" + Fix + "2.png";
+            }
+            if (MoveFrames <= 40)
+            {
+                return "MonsterGhul" + Fix + "3.png";
+            }
+            if (MoveFrames <= 60)
+            {
+                return "MonsterGhul" + Fix + "4.png";
+            }
+            if (MoveFrames <= 80)
+            {
+                return "MonsterGhul" + Fix + "5.png";
+            }
+            if (MoveFrames <= 100)
+            {
+                return "MonsterGhul" + Fix + "6.png";
+            }
+            return "";
         }
     }
 

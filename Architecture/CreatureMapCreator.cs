@@ -46,7 +46,7 @@ namespace DarkDivinity
                     return CreateCreatureByTypeName("Player");
                 case 'T':
                     return CreateCreatureByTypeName("Terrain");
-                case 'G':
+                case 'A':
                     return CreateCreatureByTypeName("Gold");
                 case 'S':
                     return CreateCreatureByTypeName("Spike");
@@ -54,6 +54,10 @@ namespace DarkDivinity
                     return CreateCreatureByTypeName("Monster");
                 case 'E':
                     return CreateCreatureByTypeName("Exit");
+                case 'G':
+                    return CreateCreatureByTypeName("MonsterGhul");
+                case 'B':
+                    return CreateCreatureByTypeName("TerrainBroken");
                 case ' ':
                     return null;
                 default:
